@@ -9,20 +9,38 @@ const port = process.env.PORT || 5000;
 
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connection to Mongo DB established"))
-  .catch((err) => console.log(err));
+const mongoDBConnection = () => {
+  try {
+    mongoose.connect(process.env.MONGO_URI);
+    console.log(`Connection to Mongo DB on port: ${port} established`);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-app.listen(port, () => {
-  console.log("Server is running on " + port + "port");
-});
+const addMiddleWare = () => {
+  app.use(express.json());
+  app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  );
+  app.use(cors());
+};
 
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(cors());
-app.use("/users", router);
+const startServer = () => {
+  app.listen(port, () => {
+    console.log(`Server is running on port: ${port} `);
+  });
+};
+
+const loadRoute = () => {
+  app.use("/users", router);
+};
+
+(function controller() {
+  mongoDBConnection();
+  addMiddleWare();
+  loadRoute();
+  startServer();
+})();
