@@ -1,9 +1,11 @@
-import "./App.css";
+import MainNavbar from "./navigation/MainNavbar";
+import MainSpotListView from "./views/MainSpotListView";
 
 function App() {
   return (
     <>
-      <h4>My wonderful webpage</h4>
+      <MainNavbar />
+      <MainSpotListView />
     </>
   );
 }
