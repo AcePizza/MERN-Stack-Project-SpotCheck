@@ -20,8 +20,8 @@ function MainSpotListDropDownFilter() {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Box>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-simple-select-label">Type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -38,8 +38,8 @@ function MainSpotListDropDownFilter() {
         </Grid>
         <Grid item xs={6}>
           <Box>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-simple-select-label">Boroughs</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
