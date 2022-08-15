@@ -10,8 +10,8 @@ function useFetch(url, page) {
   const fetchDataFromBackend = async (url) => {
     try {
       const fetchedData = await fetch(url);
-      const respose = await fetchedData.json();
-      console.log(respose);
+      const response = await fetchedData.json();
+      console.log(response.allUsers);
     } catch (error) {
       console.log(error);
     }
