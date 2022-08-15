@@ -12,7 +12,7 @@ dotenv.config();
 const mongoDBConnection = () => {
   try {
     mongoose.connect(process.env.MONGO_URI);
-    console.log(`Connection to Mongo DB on port: ${port} established`);
+    console.warn(`Connection to Mongo DB on port: ${port} established`);
   } catch (error) {
     console.log(error);
   }
