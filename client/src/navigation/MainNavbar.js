@@ -23,7 +23,7 @@ function MainNavbar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+              Sara's webpage
             </Typography>
             <Button color="inherit">Login</Button>
           </Toolbar>
