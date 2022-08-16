@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
-import router from "./routes/users.js";
+import userRouter from "./routes/usersRoute.js";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
+import spotRouter from "./routes/spotRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -35,7 +36,9 @@ const startServer = () => {
 };
 
 const loadRoute = () => {
-  app.use("/users", router);
+  // This is the URL from the browser
+  app.use("/users", userRouter);
+  app.use("/spots", spotRouter);
 };
 
 (function controller() {
