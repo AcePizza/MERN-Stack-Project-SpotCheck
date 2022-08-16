@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  secondname: {
+  lastname: {
     type: String,
     required: true,
     unique: true,
@@ -16,7 +16,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  image: String,
 });
-const User = mongoose.model("User", userSchema);
 
-export default User;
+const UserModel = mongoose.model("user", userSchema);
+
+export default UserModel;
