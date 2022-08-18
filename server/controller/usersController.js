@@ -29,6 +29,14 @@ const getAllUsers = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
+  console.log({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    emailaddress: req.body.lastname,
+    password: req.body.lastname,
+    image: req.body.image,
+  });
+
   try {
     const exsistingUser = await UserModel.findOne({
       emailaddress: req.body.emailaddress,
