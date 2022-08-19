@@ -9,20 +9,19 @@ const spotSchema = new mongoose.Schema({
   location: {
     type: String,
     required: true,
-    unique: true,
   },
   image: {
     type: String,
     required: true,
-    unique: true,
   },
   description: {
     type: String,
     required: true,
-    unique: true,
   },
-  votes: Number,
-  rating: Number,
+  votes: Array,
+  author: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "users", required: true },
+  ],
 });
 
 const SpotModal = mongoose.model("spot", spotSchema);

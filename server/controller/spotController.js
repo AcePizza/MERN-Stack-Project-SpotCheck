@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import SpotModal from "../model/spotModal.js";
 
 const getAllSpots = async (req, res) => {
@@ -73,4 +74,40 @@ const getBoroughs = async (req, res) => {
   }
 };
 
-export { getAllSpots, getBoroughs };
+const createSpot = async (req, res) => {
+  console.log({
+    title: req.body.title,
+    location: req.body.location,
+    image: req.body.image,
+    description: req.body.description,
+    votes: req.body.votes,
+    author: req.body.author,
+  });
+  try {
+    const existingSpot = await SpotModal.findOne({
+      title: req.body.title,
+    });
+    if (existingSpot) {
+      res.status(409).json({ msg: "Spot already exists" });
+    } else {
+      const newSpot = new SpotModal({
+        title: req.body.title,
+        location: req.body.location,
+        image: req.body.image,
+        description: req.body.description,
+        votes: req.body.votes,
+        author: req.body.author,
+      });
+      try {
+        const saveSpot = await newSpot.save();
+        res.status(200).json({ msg: "Spot created succesfully" });
+      } catch (error) {
+        res.status(409).json({ msg: "there was an error", error: error });
+      }
+    }
+  } catch (error) {
+    res.status(666).json({ msg: "Big problems" });
+  }
+};
+
+export { getAllSpots, getBoroughs, createSpot };
