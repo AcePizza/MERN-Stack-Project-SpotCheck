@@ -19,9 +19,11 @@ const spotSchema = new mongoose.Schema({
     required: true,
   },
   votes: Array,
-  author: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "users", required: true },
-  ],
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
 });
 
 const SpotModal = mongoose.model("spot", spotSchema);
