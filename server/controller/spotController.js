@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import SpotModal from "../model/spotModal.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const getAllSpots = async (req, res) => {
+  console.log("allSpots");
   try {
     const allSpots = await SpotModal.find({});
     if (allSpots.length === 0) {
@@ -23,6 +25,7 @@ const getAllSpots = async (req, res) => {
 };
 
 const getBoroughs = async (req, res) => {
+  console.log("allBoroughs");
   const { rating } = req.query;
 
   // Conditinal that checks is there is a rating in URL and if found uses it in the search
@@ -102,7 +105,7 @@ const createSpot = async (req, res) => {
         const saveSpot = await newSpot.save();
         res.status(200).json({ msg: "Spot created succesfully" });
       } catch (error) {
-        res.status(409).json({ msg: "there was an error", error: error });
+        res.status(409).json({ msg: "There was an error", error: error });
       }
     }
   } catch (error) {
@@ -110,4 +113,25 @@ const createSpot = async (req, res) => {
   }
 };
 
-export { getAllSpots, getBoroughs, createSpot };
+const uploadSpotPicture = async (req, res) => {
+  console.log("upladeSpotPicture body : ", req.body);
+  try {
+    console.log("File", req.file);
+    const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+      folder: "spotcheck-images",
+    });
+    console.log("Upload", uploadResult);
+    res.status(200).json({
+      msg: "Image uploaded succesfully",
+      imageURL: uploadResult.url,
+    });
+  } catch (error) {
+    res.status(500).json({
+      msg: "There was an error when uploading the image",
+      error: error.message,
+      errorobject: error,
+    });
+  }
+};
+
+export { getAllSpots, getBoroughs, createSpot, uploadSpotPicture };

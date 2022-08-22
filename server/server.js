@@ -4,6 +4,7 @@ import userRouter from "./routes/usersRoute.js";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import spotRouter from "./routes/spotRoute.js";
+import cloudinaryConfig from "./config/cloudinaryConfig.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -27,6 +28,7 @@ const addMiddleWare = () => {
     })
   );
   app.use(cors());
+  cloudinaryConfig();
 };
 
 const startServer = () => {
