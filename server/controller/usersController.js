@@ -1,7 +1,9 @@
 import UserModel from "../model/userModel.js";
 import bcrypt from "bcrypt";
 import { body, validationResult } from "express-validator";
-import { application } from "express";
+import e, { application } from "express";
+import { encryptPassword, verifyPassword } from "../utils/passwordUtils.js";
+import { issueToken } from "../utils/jsonWebToken.js";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -79,16 +81,35 @@ const signUp = async (req, res) => {
   }
 };
 
-const encryptPassword = async (password) => {
-  try {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashPassword = await bcrypt.hash(password, salt);
+const signInUser = async (req, res) => {
+  console.log("request", req.body);
 
-    return hashPassword;
+  try {
+    const exsistingUser = await UserModel.findOne({
+      emailaddress: req.body.emailaddress,
+    });
+    if (exsistingUser) {
+      const verified = await verifyPassword(req, exsistingUser);
+      if (verified) {
+        const token = issueToken(exsistingUser._id);
+
+        res.status(200).json({
+          msg: "Success",
+          user: {
+            emailaddress: exsistingUser.emailaddress,
+            user_id: exsistingUser._id,
+          },
+          token,
+        });
+      } else {
+        res.status(401).json({ msg: "User could not be verified" });
+      }
+    } else {
+      res.status(404).json({ msg: "Could not find user" });
+    }
   } catch (error) {
-    console.log("Error hashing password");
+    res.status(500).json({ msg: "An error was triggered while finding user" });
   }
 };
 
-export { getAllUsers, signUp };
+export { getAllUsers, signUp, signInUser };
