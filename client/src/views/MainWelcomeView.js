@@ -1,5 +1,4 @@
 import { Container } from "@mui/system";
-import React from "react";
 
 function MainWelcomeView() {
   return (
