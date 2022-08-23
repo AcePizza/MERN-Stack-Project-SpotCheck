@@ -5,17 +5,12 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import spotRouter from "./routes/spotRoute.js";
 import cloudinaryConfig from "./config/cloudinaryConfig.js";
-import rateLimit from "express-rate-limit";
+import limiter from "./utils/rateLimiter.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 dotenv.config();
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
 
 const mongoDBConnection = () => {
   try {
