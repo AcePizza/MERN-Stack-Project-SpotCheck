@@ -50,6 +50,7 @@ export default function SignUp() {
       image: "nothing yet",
     });
 
+    // Please move this to the hook
     const fetchPostDataToBackend = async (formData) => {
       try {
         const fetchedData = await fetch("http://localhost:5000/users/signup", {

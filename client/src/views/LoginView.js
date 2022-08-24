@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginDialog from "../components/LoginDialog";
+import { AutenticationContext } from "../context/AutenticationContext";
 
 const theme = createTheme();
 
@@ -20,6 +19,7 @@ const SignIn = () => {
   const [formData, setFormData] = useState();
   const [openDialog, setOpenDialog] = useState(false);
   const [resultsFromFetch, setResultsFromFetch] = useState(null);
+  const { isUserLoggedIn } = useContext(AutenticationContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,7 +47,7 @@ const SignIn = () => {
         );
         const respose = await fetchData.json();
         setResultsFromFetch(respose);
-        const token = resultsFromFetch.token;
+        const token = resultsFromFetch.token; //Store the token
         localStorage.setItem("token", token);
         if (resultsFromFetch.msg === "Success") {
           setOpenDialog(true);
