@@ -21,6 +21,10 @@ const SignIn = () => {
   const [resultsFromFetch, setResultsFromFetch] = useState(null);
   const { isUserLoggedIn } = useContext(AutenticationContext);
 
+  const fromChildSetOpenDialog = () => {
+    setOpenDialog();
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,15 +49,14 @@ const SignIn = () => {
           "http://localhost:5000/users/login",
           requestOptions
         );
-        const respose = await fetchData.json();
-        setResultsFromFetch(respose);
+        const response = await fetchData.json();
+        setResultsFromFetch({
+          status: fetchData.status,
+          response,
+        });
         const token = resultsFromFetch.token; //Store the token
         localStorage.setItem("token", token);
-        if (resultsFromFetch.msg === "Success") {
-          setOpenDialog(true);
-        } else {
-          console.log("Something went wrong");
-        }
+        setOpenDialog(true);
       } catch (error) {
         setResultsFromFetch({
           msg: "Sommething went wrong",
@@ -71,6 +74,7 @@ const SignIn = () => {
         <LoginDialog
           resultsFromFetch={resultsFromFetch}
           openDialog={openDialog}
+          fromChildSetOpenDialog={fromChildSetOpenDialog}
         />
       )}
       <ThemeProvider theme={theme}>
