@@ -7,29 +7,31 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardImagePlaceholder from "../assets/contemplative-reptile.jpeg";
 
-function MainSpotListCard() {
+function MainSpotListCard({ spot, index }) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image={CardImagePlaceholder}
-        alt="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizardo (Italian)
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizardos are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarcticano
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    <>
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          component="img"
+          height="140"
+          image={spot.image}
+          alt="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {spot.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {spot.description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Share</Button>
+          <Button size="small">Learn More</Button>
+        </CardActions>
+      </Card>
+      <br />
+    </>
   );
 }
 
