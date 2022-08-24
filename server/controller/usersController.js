@@ -43,9 +43,7 @@ const signUp = async (req, res) => {
     const exsistingUser = await UserModel.findOne({
       emailaddress: req.body.emailaddress,
     });
-    if (exsistingUser) {
-      res.status(409).json({ msg: "User already exist" });
-    } else {
+    if (!exsistingUser) {
       const hashedPassword = await encryptPassword(req.body.password);
 
       const newUser = new UserModel({
@@ -55,7 +53,6 @@ const signUp = async (req, res) => {
         password: hashedPassword,
         image: req.body.image,
       });
-
       try {
         const savedUser = await newUser.save();
         res.status(201).json({
@@ -74,14 +71,32 @@ const signUp = async (req, res) => {
           error: error,
         });
       }
+    } else {
+      res.status(409).json({ msg: "User already exist" });
     }
   } catch (error) {
-    res.status(666).json({ msg: "Unfortunetly the world died" });
+    res.status(401).json({
+      msg: "Registering the user could not be completed",
+      error: error,
+    });
   }
 };
 
 const signInUser = async (req, res) => {
   console.log("request", req.body);
+
+  const validateStuff = () => {
+    body("emailaddress").isEmail();
+    body("password").isLength({ min: 5 });
+    (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      } else {
+        return res.status(200).json({ msg: "Coool" });
+      }
+    };
+  };
 
   try {
     const exsistingUser = await UserModel.findOne({
