@@ -114,13 +114,10 @@ const createSpot = async (req, res) => {
 };
 
 const uploadSpotPicture = async (req, res) => {
-  console.log("upladeSpotPicture body : ", req.body);
   try {
-    console.log("File", req.file);
     const uploadResult = await cloudinary.uploader.upload(req.file.path, {
       folder: "spotcheck-images",
     });
-    console.log("Upload", uploadResult);
     res.status(200).json({
       msg: "Image uploaded succesfully",
       imageURL: uploadResult.url,

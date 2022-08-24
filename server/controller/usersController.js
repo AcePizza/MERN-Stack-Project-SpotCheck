@@ -73,7 +73,6 @@ const signUp = async (req, res) => {
           msg: "There was an error creating the user",
           error: error,
         });
-        console.log("error", error);
       }
     }
   } catch (error) {
