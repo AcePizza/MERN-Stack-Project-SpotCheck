@@ -5,13 +5,11 @@ function useFetch(url, page) {
     return null;
   });
 
-  console.log("url : ", url);
-
   const fetchDataFromBackend = async (url) => {
     try {
       const fetchedData = await fetch(url);
       const response = await fetchedData.json();
-      console.log(response.allUsers);
+      setFetchData(response);
     } catch (error) {
       console.log(error);
     }
@@ -21,7 +19,7 @@ function useFetch(url, page) {
     fetchDataFromBackend(url);
   }, []);
 
-  return <div>useFetch</div>;
+  return fetchData;
 }
 
 export default useFetch;
