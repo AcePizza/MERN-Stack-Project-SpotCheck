@@ -14,8 +14,7 @@ export default function AlertDialog({
 }) {
   const [open, setOpen] = React.useState(openDialog);
 
-  console.log("openDialog", openDialog);
-  console.log("resultsFromFetch", resultsFromFetch);
+  const redirectTO = useNavigate();
 
   const handleClose = () => {
     if (resultsFromFetch.status === 200) {
