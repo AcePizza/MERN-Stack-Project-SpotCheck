@@ -108,7 +108,8 @@ const signInUser = async (req, res) => {
         const token = issueToken(exsistingUser._id);
 
         res.status(200).json({
-          msg: "Success",
+          title: "Login successfull",
+          msg: "User was successfully logged in",
           user: {
             emailaddress: exsistingUser.emailaddress,
             user_id: exsistingUser._id,
@@ -116,13 +117,22 @@ const signInUser = async (req, res) => {
           token,
         });
       } else {
-        res.status(401).json({ msg: "User could not be verified" });
+        res.status(401).json({
+          title: "Verification error",
+          msg: "User could not be verified",
+        });
       }
     } else {
-      res.status(404).json({ msg: "Could not find user" });
+      res.status(404).json({
+        title: "Error not found",
+        msg: "Could not find user",
+      });
     }
   } catch (error) {
-    res.status(500).json({ msg: "An error was triggered while finding user" });
+    res.status(500).json({
+      title: "Server error",
+      msg: "An error was triggered while finding user",
+    });
   }
 };
 
