@@ -5,18 +5,24 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useNavigate } from "react-router-dom";
 
-export default function AlertDialog({ openDialog, resultsFromFetch }) {
+export default function AlertDialog({
+  openDialog,
+  resultsFromFetch,
+  fromChildSetOpenDialog,
+}) {
   const [open, setOpen] = React.useState(openDialog);
-
-  console.log("openDialog", openDialog);
-  console.log("resultsFromFetch", resultsFromFetch);
+  const redirectTO = useNavigate();
 
   const handleClose = () => {
-    setOpen(false);
+    if (resultsFromFetch.status === 200) {
+      redirectTO("/home");
+    } else {
+      redirectTO("/login");
+      fromChildSetOpenDialog(false);
+    }
   };
-
-  // HandleClose needs to send data to parent. So this function needs to be created in the parent and sent via props (Stuff for later)
 
   return (
     <>
@@ -26,11 +32,12 @@ export default function AlertDialog({ openDialog, resultsFromFetch }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">User logged in</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {resultsFromFetch && resultsFromFetch.response.title}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {resultsFromFetch &&
-              `${resultsFromFetch.msg}. The user ${resultsFromFetch.user.emailadress} was logged in`}
+            {resultsFromFetch && resultsFromFetch.response.msg}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
