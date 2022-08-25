@@ -40,8 +40,8 @@ const startServer = () => {
 
 const loadRoute = () => {
   // This is the URL from the browser
-  app.use("/users", limiter, userRouter);
-  app.use("/spots", limiter, spotRouter);
+  app.use("/users", userRouter);
+  app.use("/spots", spotRouter);
 };
 
 (function controller() {

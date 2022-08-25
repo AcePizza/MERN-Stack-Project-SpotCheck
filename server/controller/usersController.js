@@ -34,8 +34,8 @@ const signUp = async (req, res) => {
   console.log({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
-    emailaddress: req.body.lastname,
-    password: req.body.lastname,
+    emailaddress: req.body.emailaddress,
+    password: req.body.password,
     image: req.body.image,
   });
 
@@ -136,4 +136,50 @@ const signInUser = async (req, res) => {
   }
 };
 
-export { getAllUsers, signUp, signInUser };
+const uploadProfilePicture = async (req, res) => {
+  try {
+    const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+      folder: "spotcheck-images",
+    });
+    res.status(200).json({
+      msg: "Image uploaded succesfully",
+      imageURL: uploadResult.url,
+    });
+  } catch (error) {
+    res.status(500).json({
+      msg: "There was an error when uploading the image",
+      error: error.message,
+      errorobject: error,
+    });
+  }
+};
+
+const updateUser = async (req, res) => {
+  console.log({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    emailaddress: req.body.emailaddress,
+    image: req.body.image,
+  });
+
+  const filter = { emailaddress: req.body.emailaddress };
+  const update = {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    image: req.body.image,
+  };
+
+  try {
+    const doc = await UserModel.findOneAndUpdate(filter, update);
+    console.log(doc);
+    if (doc === null) {
+      res.status(400).json({ msg: "User not found" });
+    } else {
+      res.status(200).json({ msg: "User was successfully updated" });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: "Could not complete operation", error: error });
+  }
+};
+
+export { getAllUsers, signUp, signInUser, updateUser, uploadProfilePicture };
