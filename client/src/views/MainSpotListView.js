@@ -8,19 +8,22 @@ import useFetch from "../utils/useFetch";
 
 function MainSpotListView() {
   const [allSpots, setAllSpots] = useState(null);
+  const [loader, setLoader] = useState(true);
+
   const url = "http://localhost:5000/spots/all";
 
   const foundSpots = useFetch(url);
 
   return (
     <Container>
-      <MainSpotListDropDownFilter />
-      <MainSpotListPagination />
       <br />
-      {foundSpots &&
+      {!foundSpots ? (
+        <LoadingPleaseWait />
+      ) : (
         foundSpots.allSpots.map((spot, index) => {
           return <MainSpotListCard spot={spot} index={index} />;
-        })}
+        })
+      )}
     </Container>
   );
 }
