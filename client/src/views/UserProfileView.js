@@ -8,8 +8,6 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 
 function UserProfileView() {
-  const getUser = useFetch("");
-
   return (
     <Container>
       <Grid container spacing={2}>
