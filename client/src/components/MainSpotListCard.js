@@ -5,7 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import CardImagePlaceholder from "../assets/contemplative-reptile.jpeg";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { IconButton } from "@mui/material";
 
 function MainSpotListCard({ spot, index }) {
   return (
@@ -26,8 +27,10 @@ function MainSpotListCard({ spot, index }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <Button size="small">More info</Button>
         </CardActions>
       </Card>
       <br />
