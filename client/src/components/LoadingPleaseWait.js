@@ -5,15 +5,12 @@ import { Grid } from "@mui/material";
 
 function LoadingPleaseWait() {
   return (
-    <Grid item xs={12}>
-      <Box
-        sx={{
-          display: "flex",
-        }}
-        style={{ textAlign: "center" }}
-      >
+    <Grid container spacing={2}>
+      <Grid item xs={4}></Grid>
+      <Grid item xs={4}>
         <CircularProgress />
-      </Box>
+      </Grid>
+      <Grid item xs={4}></Grid>
     </Grid>
   );
 }
