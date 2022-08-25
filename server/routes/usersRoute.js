@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAllUsers,
+  searchUser,
   signInUser,
   signUp,
   updateUser,
@@ -11,6 +12,7 @@ import { multerUpload } from "../middelwares/multer.js";
 const userRouter = express.Router();
 
 userRouter.get("/all", getAllUsers); // imported from controller
+userRouter.get("/search/:searchUser", searchUser);
 userRouter.post("/signup", signUp);
 userRouter.post("/login", signInUser);
 userRouter.post("/update", updateUser);

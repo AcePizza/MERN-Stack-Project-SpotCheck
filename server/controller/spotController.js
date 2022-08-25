@@ -25,7 +25,7 @@ const getAllSpots = async (req, res) => {
 };
 
 const getBoroughs = async (req, res) => {
-  console.log("allBoroughs");
+  console.log(req.params.boroughsBerlin);
   const { rating } = req.query;
 
   // Conditinal that checks is there is a rating in URL and if found uses it in the search

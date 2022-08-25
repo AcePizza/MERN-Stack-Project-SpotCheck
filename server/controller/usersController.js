@@ -171,7 +171,6 @@ const updateUser = async (req, res) => {
 
   try {
     const doc = await UserModel.findOneAndUpdate(filter, update);
-    console.log(doc);
     if (doc === null) {
       res.status(400).json({ msg: "User not found" });
     } else {
@@ -182,4 +181,32 @@ const updateUser = async (req, res) => {
   }
 };
 
-export { getAllUsers, signUp, signInUser, updateUser, uploadProfilePicture };
+const searchUser = async (req, res) => {
+  console.log("searchUser req : ", req.params.searchUser);
+
+  try {
+    const searchEmail = await UserModel.find({
+      firstname: req.params.searchUser,
+      lastname: req.params.searchUser,
+    }).exec();
+    if (searchEmail.length === 0) {
+      res.status(201).json({ msg: "Nothing found" });
+    } else {
+      res.status(200).json({
+        msg: "Found the user",
+        search,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: "Server failed", error: error });
+  }
+};
+
+export {
+  getAllUsers,
+  signUp,
+  signInUser,
+  updateUser,
+  uploadProfilePicture,
+  searchUser,
+};

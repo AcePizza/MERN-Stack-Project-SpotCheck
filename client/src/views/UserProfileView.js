@@ -8,18 +8,38 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 
 function UserProfileView() {
+  const getUser = useFetch("");
+
   return (
     <Container>
-      <Avatar
-        alt="Remy Sharp"
-        src="/static/images/avatar/1.jpg"
-        sx={{ width: 56, height: 56 }}
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={4}></Grid>
+        <Grid item xs={4}>
+          <Avatar
+            alt="Remy Sharp"
+            src="/static/images/avatar/1.jpg"
+            sx={{ width: 56, height: 56 }}
+          />
+        </Grid>
+        <Grid item xs={4}></Grid>
+      </Grid>
+
       <br />
-      <IconButton color="primary" aria-label="upload picture" component="label">
-        <input hidden accept="image/*" type="file" />
-        <PhotoCamera />
-      </IconButton>
+      <Grid container spacing={2}>
+        <Grid item xs={4}></Grid>
+        <Grid item xs={4}>
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+          >
+            <input hidden accept="image/*" type="file" />
+            <PhotoCamera />
+          </IconButton>
+        </Grid>
+        <Grid item xs={4}></Grid>
+      </Grid>
+
       <Divider />
       <br />
       <Grid container spacing={2}>

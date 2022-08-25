@@ -10,7 +10,7 @@ import { multerUpload } from "../middelwares/multer.js";
 const spotRouter = express.Router();
 
 spotRouter.get("/all", getAllSpots);
-spotRouter.get("/:boroughsBerlin", getBoroughs);
+spotRouter.get("/search/:boroughsBerlin", getBoroughs);
 spotRouter.post("/createspot", createSpot);
 spotRouter.post(
   "/imageupload",
