@@ -1,4 +1,3 @@
-import { useSlotProps } from "@mui/base";
 import React, { createContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 
@@ -17,14 +16,12 @@ export const AutenticationContextProvider = (props) => {
     }
   };
 
-  const getDataFromToken = () => {
-    const jwtToken = localStorage.getItem("token");
-    console.log("jwtToken", jwtToken);
-    // if (jwtToken) {
-    //   const decodedToken = jwt_decode(jwtToken);
-    //   console.log("decodedToken", decodedToken);
-    // }
-  };
+  // const getDataFromToken = () => {
+  //   const jwtToken = localStorage.getItem("token");
+  //   if (jwtToken) {
+  //     const decodedToken = jwt_decode(jwtToken);
+  //   }
+  // };
 
   const logoutUser = () => {
     localStorage.removeItem("token");
@@ -32,7 +29,6 @@ export const AutenticationContextProvider = (props) => {
 
   useEffect(() => {
     setIsUserLoggedIn(getToken());
-    getDataFromToken();
   }, []);
 
   return (
