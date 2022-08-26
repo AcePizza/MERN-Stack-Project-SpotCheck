@@ -85,19 +85,6 @@ const signUp = async (req, res) => {
 const signInUser = async (req, res) => {
   console.log("request", req.body);
 
-  const validateStuff = () => {
-    body("emailaddress").isEmail();
-    body("password").isLength({ min: 5 });
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      } else {
-        return res.status(200).json({ msg: "Coool" });
-      }
-    };
-  };
-
   try {
     const exsistingUser = await UserModel.findOne({
       emailaddress: req.body.emailaddress,
@@ -106,6 +93,7 @@ const signInUser = async (req, res) => {
       const verified = await verifyPassword(req, exsistingUser);
       if (verified) {
         const token = issueToken(exsistingUser._id);
+        console.log("token", token);
 
         res.status(200).json({
           title: "Login successfull",
