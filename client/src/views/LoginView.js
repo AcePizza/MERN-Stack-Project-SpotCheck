@@ -54,7 +54,8 @@ const SignIn = () => {
           status: fetchData.status,
           response,
         });
-        const token = resultsFromFetch.token; //Store the token
+        const token = response.token; //Store the token
+
         localStorage.setItem("token", token);
         setOpenDialog(true);
       } catch (error) {
