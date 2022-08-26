@@ -92,6 +92,7 @@ const signInUser = async (req, res) => {
     if (exsistingUser) {
       const verified = await verifyPassword(req, exsistingUser);
       if (verified) {
+        console.log("exitingUser._id", exsistingUser._id);
         const token = issueToken(exsistingUser._id);
         console.log("token", token);
 
@@ -191,27 +192,11 @@ const searchUser = async (req, res) => {
 };
 
 const findOneUser = async (req, res) => {
-  console.log(req.body);
-  const verifyEmail = body("emailaddress").isEmail();
-  console.log("verifyEmail", verifyEmail);
-  // Finds the validation errors in this request and wraps them in an object with handy functions
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  console.log("errors", errors);
-  // try {
-  //   const user = await UserModel.findOne({
-  //     emailaddress: req.body.emailaddress,
-  //   }).exec();
-  //   if (user === null) {
-  //     res.status(201).json({ msg: "Could not find any user with that email" });
-  //   } else {
-  //     res.status(200).json({ msg: "Success", user });
-  //   }
-  // } catch (error) {
-  //   res.status(500).json({ msg: "The request failed", error: error });
-  // }
+  console.log("req : ", req);
+  res.status(200).json({
+    emailaddress: req.user.emailaddress,
+    image: req.user.image,
+  });
 };
 
 export {

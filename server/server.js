@@ -6,6 +6,8 @@ import * as dotenv from "dotenv";
 import spotRouter from "./routes/spotRoute.js";
 import cloudinaryConfig from "./config/cloudinaryConfig.js";
 import limiter from "./utils/rateLimiter.js";
+import passport from "passport";
+import { passportConfig } from "./config/passport.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -30,6 +32,8 @@ const addMiddleWare = () => {
   );
   app.use(cors());
   cloudinaryConfig();
+  app.use(passport.initialize());
+  passportConfig(passport);
 };
 
 const startServer = () => {
