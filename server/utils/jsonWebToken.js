@@ -3,15 +3,17 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const issueToken = ({ useID }) => {
+const issueToken = (userID) => {
   const privateKey = process.env.SECRET_OR_KEY;
 
   const options = {
-    expiresIn: "2 D",
+    expiresIn: "5 d",
   };
 
+  console.log("useID", userID);
+
   const payload = {
-    sub: useID,
+    sub: userID,
   };
 
   const jwt = jsonwebtoken.sign(payload, privateKey, options);
