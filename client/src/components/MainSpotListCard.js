@@ -10,7 +10,7 @@ import { IconButton } from "@mui/material";
 
 function MainSpotListCard({ spot, index }) {
   return (
-    <>
+    <React.Fragment key={index}>
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           component="img"
@@ -34,7 +34,7 @@ function MainSpotListCard({ spot, index }) {
         </CardActions>
       </Card>
       <br />
-    </>
+    </React.Fragment>
   );
 }
 
