@@ -194,6 +194,8 @@ const searchUser = async (req, res) => {
 const findOneUser = async (req, res) => {
   console.log("req : ", req);
   res.status(200).json({
+    firstname: req.user.firstname,
+    lastname: req.user.lastname,
     emailaddress: req.user.emailaddress,
     image: req.user.image,
   });
