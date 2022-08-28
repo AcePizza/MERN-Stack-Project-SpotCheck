@@ -4,6 +4,7 @@ import { body, validationResult } from "express-validator";
 import e, { application } from "express";
 import { encryptPassword, verifyPassword } from "../utils/passwordUtils.js";
 import { issueToken } from "../utils/jsonWebToken.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -194,6 +195,7 @@ const searchUser = async (req, res) => {
 const findOneUser = async (req, res) => {
   console.log("req : ", req);
   res.status(200).json({
+    msg: "User succesfully authorized",
     firstname: req.user.firstname,
     lastname: req.user.lastname,
     emailaddress: req.user.emailaddress,
