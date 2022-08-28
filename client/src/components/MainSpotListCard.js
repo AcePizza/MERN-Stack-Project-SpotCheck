@@ -7,8 +7,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function MainSpotListCard({ spot, index }) {
+  const redirectTo = useNavigate();
+
   return (
     <React.Fragment key={index}>
       <Card sx={{ maxWidth: 345 }}>
@@ -30,7 +33,14 @@ function MainSpotListCard({ spot, index }) {
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
-          <Button size="small">More info</Button>
+          <Button
+            onClick={() => {
+              redirectTo(`/spotdetails/${spot._id}`);
+            }}
+            size="small"
+          >
+            More info
+          </Button>
         </CardActions>
       </Card>
       <br />
