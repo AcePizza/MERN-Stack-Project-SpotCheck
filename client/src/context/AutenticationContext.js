@@ -16,13 +16,6 @@ export const AutenticationContextProvider = (props) => {
     }
   };
 
-  // const getDataFromToken = () => {
-  //   const jwtToken = localStorage.getItem("token");
-  //   if (jwtToken) {
-  //     const decodedToken = jwt_decode(jwtToken);
-  //   }
-  // };
-
   const logoutUser = () => {
     localStorage.removeItem("token");
   };
