@@ -10,7 +10,6 @@ import AutenticationContext, {
 import AddSpotView from "./views/AddSpotView";
 import SpotDetailsView from "./views/SpotDetailsView";
 import UserProfileView from "./views/UserProfileView";
-
 function App() {
   return (
     <div className="App">
