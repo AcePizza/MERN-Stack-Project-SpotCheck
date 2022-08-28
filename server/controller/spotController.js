@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import SpotModal from "../model/spotModal.js";
 import { v2 as cloudinary } from "cloudinary";
+import spotRouter from "../routes/spotRoute.js";
 
 const getAllSpots = async (req, res) => {
   console.log("allSpots");
@@ -131,4 +132,21 @@ const uploadSpotPicture = async (req, res) => {
   }
 };
 
-export { getAllSpots, getBoroughs, createSpot, uploadSpotPicture };
+const getOneSpot = async (req, res) => {
+  console.log("SpotController 135", req.body.id);
+
+  try {
+    const findByID = await SpotModal.findById(req.body.id).exec();
+    res.status(200).json({
+      title: findByID.title,
+      location: findByID.location,
+      image: findByID.image,
+      description: findByID.description,
+      author: findByID.author,
+    });
+  } catch (error) {
+    res.status(404).json({ msg: "Could not find anything" });
+  }
+};
+
+export { getAllSpots, getBoroughs, createSpot, uploadSpotPicture, getOneSpot };

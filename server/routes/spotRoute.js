@@ -4,12 +4,14 @@ import {
   getBoroughs,
   createSpot,
   uploadSpotPicture,
+  getOneSpot,
 } from "../controller/spotController.js";
 import { multerUpload } from "../middelwares/multer.js";
 
 const spotRouter = express.Router();
 
 spotRouter.get("/all", getAllSpots);
+spotRouter.get("/one", getOneSpot);
 spotRouter.get("/search/:boroughsBerlin", getBoroughs);
 spotRouter.post("/createspot", createSpot);
 spotRouter.post(
