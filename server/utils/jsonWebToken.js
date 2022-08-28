@@ -10,8 +10,6 @@ const issueToken = (userID) => {
     expiresIn: "5 d",
   };
 
-  console.log("useID", userID);
-
   const payload = {
     sub: userID,
   };
