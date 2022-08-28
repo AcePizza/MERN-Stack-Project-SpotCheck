@@ -21,7 +21,7 @@ function App() {
           <Route path="login" element={<LoginView />} />
           <Route path="signup" element={<SignupView />} />
           <Route path="addspot" element={<AddSpotView />} />
-          <Route path="spotdetails" element={<SpotDetailsView />} />
+          <Route path="spotdetails/:spot" element={<SpotDetailsView />} />
           <Route path="profile" element={<UserProfileView />} />
         </Routes>
       </AutenticationContextProvider>
