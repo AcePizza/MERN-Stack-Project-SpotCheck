@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,10 +8,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import NavbarDrawer from "../components/NavbarDrawer";
+import { AutenticationContext } from "../context/AutenticationContext";
 
 function MainNavbar() {
+  const { isUserLoggedIn, logoutUser } = useContext(AutenticationContext);
   const [openDrawer, setOpenDrawer] = useState(false);
   const redirectTo = useNavigate();
+
+  const isTokenThere = localStorage.getItem("token");
 
   const loginOnClickHandeler = () => [redirectTo("/login")];
 
@@ -37,9 +41,15 @@ function MainNavbar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               SpotView
             </Typography>
-            <Button onClick={loginOnClickHandeler} color="inherit">
-              Login
-            </Button>
+            {!isTokenThere ? (
+              <Button onClick={logoutUser} color="inherit">
+                Login
+              </Button>
+            ) : (
+              <Button onClick={loginOnClickHandeler} color="inherit">
+                Logout
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <NavbarDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
