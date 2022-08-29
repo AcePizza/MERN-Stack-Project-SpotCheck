@@ -4,7 +4,6 @@ import { v2 as cloudinary } from "cloudinary";
 import spotRouter from "../routes/spotRoute.js";
 
 const getAllSpots = async (req, res) => {
-  console.log("allSpots");
   try {
     const allSpots = await SpotModal.find({});
     if (allSpots.length === 0) {
@@ -133,10 +132,8 @@ const uploadSpotPicture = async (req, res) => {
 };
 
 const getOneSpot = async (req, res) => {
-  console.log("SpotController 135", req.body.id);
-
   try {
-    const findByID = await SpotModal.findById(req.body.id).exec();
+    const findByID = await SpotModal.findById(req.params.spot).exec();
     res.status(200).json({
       title: findByID.title,
       location: findByID.location,
@@ -145,7 +142,7 @@ const getOneSpot = async (req, res) => {
       author: findByID.author,
     });
   } catch (error) {
-    res.status(404).json({ msg: "Could not find anything" });
+    res.status(404).json({ msg: "Could not find anything", error: error });
   }
 };
 
