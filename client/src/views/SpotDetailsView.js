@@ -54,7 +54,9 @@ function SpotDetailsView() {
     }
   };
 
-  const favoriteSpotHandler = () => {};
+  const favoriteSpotHandler = () => {
+    console.log("Favorite clicked");
+  };
 
   useEffect(() => {
     getCurrentSpot();
@@ -79,13 +81,12 @@ function SpotDetailsView() {
                 style={{
                   position: "absolute",
                   color: "white",
-                  top: 10,
-                  left: "50%",
-                  transform: "translateX(-50%)",
+                  top: 0,
+                  left: "7%",
+                  textShadow: "-1px 1px 10px rgba(0, 0, 0, 0.75)",
                 }}
               >
-                {" "}
-                {currentSpot.title}
+                <h3>{currentSpot.title}</h3>
               </div>
             </div>
           </Card>
