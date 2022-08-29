@@ -11,7 +11,7 @@ import { multerUpload } from "../middelwares/multer.js";
 const spotRouter = express.Router();
 
 spotRouter.get("/all", getAllSpots);
-spotRouter.get("/one", getOneSpot);
+spotRouter.get("/one/:spot", getOneSpot);
 spotRouter.get("/search/:boroughsBerlin", getBoroughs);
 spotRouter.post("/createspot", createSpot);
 spotRouter.post(
