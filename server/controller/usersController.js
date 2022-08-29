@@ -172,8 +172,6 @@ const updateUser = async (req, res) => {
 };
 
 const searchUser = async (req, res) => {
-  console.log("searchUser req : ", req.params.searchUser);
-
   try {
     const searchEmail = await UserModel.find({
       firstname: req.params.searchUser,
@@ -193,7 +191,6 @@ const searchUser = async (req, res) => {
 };
 
 const findOneUser = async (req, res) => {
-  console.log("req : ", req);
   res.status(200).json({
     msg: "User succesfully authorized",
     firstname: req.user.firstname,
