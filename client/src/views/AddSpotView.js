@@ -55,6 +55,7 @@ function AddSpotView() {
           location: data.get("spotLocation"),
           image: imageURL,
           description: data.get("spotDescription"),
+          votes: ["62fe886907ff84184dfe1705", "62fe38a38ad558691473456b"],
           author: "62fe871a07ff84184dfe1702",
         });
 
@@ -75,10 +76,16 @@ function AddSpotView() {
         const sendSpotResult = await sendSpotResponse.json();
         console.log(sendSpotResult);
       } catch (error) {
-        console.log("There was an error uploading the spot 😞");
+        throw new Error({
+          msg: "There was an error uploading the spot 😞",
+          error: error,
+        });
       }
     } catch (error) {
-      console.log("There was an error uploading the picture 😞");
+      throw new Error({
+        msg: "There was an error uploading the picture 😞",
+        error: error,
+      });
     }
   };
 
@@ -119,7 +126,9 @@ function AddSpotView() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <label for="spotImage">Choose an image for the spot:</label>
+                  <label htmlfor="spotImage">
+                    Choose an image for the spot:
+                  </label>
                   <input
                     type="file"
                     id="myFile"
