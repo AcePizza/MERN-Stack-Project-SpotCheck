@@ -1,10 +1,6 @@
-import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
 import { Divider, Grid } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import Button from "@mui/material/Button";
 import LoadingPleaseWait from "../components/LoadingPleaseWait";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -13,9 +9,11 @@ import CardMedia from "@mui/material/CardMedia";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Alert from "@mui/material/Alert";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
+  const [favorite, setFavorite] = useState(false);
   const { spot } = useParams();
 
   const isTheTokenThere = localStorage.getItem("token");
@@ -91,15 +89,19 @@ function SpotDetailsView() {
             </div>
           </Card>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <IconButton onClick={editSpotHandler} aria-label="Edit">
                 <EditIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
+            <Grid item xs={8}></Grid>
+            <Grid item xs={2}>
               <IconButton onClick={favoriteSpotHandler} aria-label="Edit">
-                <FavoriteIcon />
+                {currentSpot.votes.length <= 0 ? (
+                  <FavoriteBorderIcon />
+                ) : (
+                  <FavoriteIcon />
+                )}
               </IconButton>
             </Grid>
           </Grid>
