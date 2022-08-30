@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -8,9 +8,15 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 function MainSpotListCard({ spot, index }) {
   const redirectTo = useNavigate();
+  const [favorite, setFavorite] = useState(false);
+
+  const favoriteButtonHandler = () => {
+    setFavorite(!favorite);
+  };
 
   return (
     <React.Fragment key={index}>
@@ -30,8 +36,11 @@ function MainSpotListCard({ spot, index }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+          <IconButton
+            onClick={favoriteButtonHandler}
+            aria-label="add to favorites"
+          >
+            {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <Button
             onClick={() => {
