@@ -39,9 +39,7 @@ function UserProfileView() {
         "http://localhost:5000/users/findoneuser",
         requestOptions
       );
-      console.log("respose", response);
       const results = await response.json();
-
       setProfileData(results);
     } catch (error) {
       console.log({
@@ -59,52 +57,76 @@ function UserProfileView() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("image", fileObject);
+    const imageUpload = async () => {
+      const formData = new FormData();
+      formData.append("image", fileObject);
 
-    const imageRequestOptions = {
-      method: "POST",
-      body: formData,
-    };
+      const imageRequestOptions = {
+        method: "POST",
+        body: formData,
+      };
 
-    try {
       const response = await fetch(
         "http://localhost:5000/users/imageupload",
         imageRequestOptions
       );
       const result = await response.json();
       setImageURL(result.imageURL);
-      if (imageURL) {
-        try {
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    };
 
-          const urlencoded = new URLSearchParams();
-          urlencoded.append("firstname", firstName);
-          urlencoded.append("lastname", lastName);
-          urlencoded.append("emailaddress", profileData.emailaddress);
-          urlencoded.append("image", imageURL);
+    const userDetailsUpload = async () => {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-          const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: urlencoded,
-            redirect: "follow",
-          };
-
-          const profileResponse = await fetch(
-            "http://localhost:5000/users/update",
-            requestOptions
-          );
-          const profileResults = await profileResponse.json();
-          console.log(profileResults);
-        } catch (error) {
-          console.log(error);
-        }
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("firstname", firstName);
+      urlencoded.append("lastname", lastName);
+      urlencoded.append("emailaddress", profileData.emailaddress);
+      if (fileObject) {
+        urlencoded.append("image", imageURL);
+      } else {
+        return;
       }
-    } catch (error) {
-      console.log(error);
-    }
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      const profileResponse = await fetch(
+        "http://localhost:5000/users/update",
+        requestOptions
+      );
+      const profileResults = await profileResponse.json();
+      setProfileData(profileResults);
+    };
+
+    const imageAndUserDetailsUpload = async () => {
+      try {
+        imageUpload();
+        if (imageURL) {
+          try {
+            userDetailsUpload();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const justUserDetailsUpload = () => {
+      try {
+        userDetailsUpload();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fileObject ? imageAndUserDetailsUpload() : justUserDetailsUpload();
   };
 
   useEffect(() => {
