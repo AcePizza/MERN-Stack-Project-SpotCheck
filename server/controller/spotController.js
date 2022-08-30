@@ -139,6 +139,7 @@ const getOneSpot = async (req, res) => {
       location: findByID.location,
       image: findByID.image,
       description: findByID.description,
+      votes: findByID.votes,
       author: findByID.author,
     });
   } catch (error) {
