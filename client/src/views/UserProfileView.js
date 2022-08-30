@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 import LoadingPleaseWait from "../components/LoadingPleaseWait";
+import useGetProfile from "../utils/useGetProfile";
 
 function UserProfileView() {
   const [profileData, setProfileData] = useState(null);
@@ -22,6 +23,8 @@ function UserProfileView() {
   const lastnameChangeHandler = (e) => {
     setLastName(e.target.value);
   };
+
+  const data = useGetProfile();
 
   const getLoggedInUser = async () => {
     const token = localStorage.getItem("token");
