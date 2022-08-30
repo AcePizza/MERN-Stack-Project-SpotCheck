@@ -18,7 +18,7 @@ const spotSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  votes: Array,
+  votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
