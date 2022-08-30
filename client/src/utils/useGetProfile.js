@@ -8,21 +8,27 @@ function useGetProfile() {
   const fetchProfileFromBackend = async () => {
     const token = localStorage.getItem("token");
 
-    if (token) {
-      try {
-        const myHeaders = new Headers();
-        myHeaders.append();
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-        const fetchedData = await fetch(
-          "http://localhost:5000/users/findoneuser"
-        );
-        const response = await fetchedData.json();
-        setFetchData(response);
-      } catch (error) {
-        console.log({ msg: "Something went wrong", error: error });
-      }
-    } else {
-      console.log("No token found");
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/users/findoneuser",
+        requestOptions
+      );
+      const results = await response.json();
+      setFetchData(results);
+    } catch (error) {
+      console.log({
+        msg: "fetch failed",
+        error: error,
+        message: error.message,
+      });
     }
   };
 
