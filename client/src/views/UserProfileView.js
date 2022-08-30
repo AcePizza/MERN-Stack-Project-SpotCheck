@@ -24,19 +24,14 @@ function UserProfileView() {
   };
 
   const getLoggedInUser = async () => {
-    const getToken = localStorage.getItem("token");
-    const token = `"Bearer ${getToken}"`;
+    const token = localStorage.getItem("token");
 
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MmZlODcxYTA3ZmY4NDE4NGRmZTE3MDIiLCJpYXQiOjE2NjE1MTgxODQsImV4cCI6MTY2MTk1MDE4NH0.cjzuTMn2y-oWSKxu_z1nFcBxpialVD4Uuy7knP6ejnY"
-    );
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
       headers: myHeaders,
-      redirect: "follow",
     };
 
     try {
@@ -44,10 +39,16 @@ function UserProfileView() {
         "http://localhost:5000/users/findoneuser",
         requestOptions
       );
+      console.log("respose", response);
       const results = await response.json();
+
       setProfileData(results);
     } catch (error) {
-      console.log("error", error);
+      console.log({
+        msg: "fetch failed",
+        error: error,
+        message: error.message,
+      });
     }
   };
 
