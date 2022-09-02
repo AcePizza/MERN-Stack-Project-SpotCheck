@@ -7,12 +7,17 @@ import MainSpotListPagination from "../components/MainSpotListPagination";
 import useFetch from "../utils/useFetch";
 
 function MainSpotListView() {
-  const [allSpots, setAllSpots] = useState(null);
-  const [loader, setLoader] = useState(true);
+  // const [foundSpots, setFoundSpots] = useState(null);
 
   const url = "http://localhost:5000/spots/all";
+  const options = "";
 
-  const foundSpots = useFetch(url);
+  const data = useFetch(url, options);
+  let foundSpots = "";
+
+  if (data.loading == false) {
+    foundSpots = data.data;
+  }
 
   return (
     <Container>
