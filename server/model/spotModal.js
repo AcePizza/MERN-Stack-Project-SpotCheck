@@ -24,6 +24,22 @@ const spotSchema = new mongoose.Schema({
     ref: "users",
     required: true,
   },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      timestamps: true,
+      message: String,
+      reply: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "users",
+          timestamps: true,
+          comment: String,
+        },
+      ],
+    },
+  ],
 });
 
 const SpotModal = mongoose.model("spot", spotSchema);
