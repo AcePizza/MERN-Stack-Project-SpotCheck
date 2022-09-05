@@ -142,20 +142,32 @@ function UserProfileView() {
         <LoadingPleaseWait />
       ) : (
         <>
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
             <Grid item xs={4}></Grid>
             <Grid item xs={4}>
               <Avatar
                 alt="Remy Sharp"
                 src={profileData.image}
-                sx={{ width: 56, height: 56 }}
+                sx={{ width: 200, height: 200 }}
               />
             </Grid>
             <Grid item xs={4}></Grid>
           </Grid>
 
           <br />
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+          >
             <Grid item xs={4}></Grid>
             <Grid item xs={4}>
               <IconButton
@@ -177,20 +189,18 @@ function UserProfileView() {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
-                required
                 id="firstname"
                 label="First Name"
-                defaultValue={profileData.firstname}
+                value={profileData.firstname}
                 variant="standard"
                 onChange={firstnameChangeHandler}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                required
                 id="lastname"
                 label="Last Name"
-                defaultValue={profileData.lastname}
+                value={profileData.lastname}
                 variant="standard"
                 onChange={lastnameChangeHandler}
               />
