@@ -30,6 +30,7 @@ function MainSpotListCard({ spot, index }) {
     }
   };
 
+  // TODO: Need to add functionality to this
   const favoriteButtonHandler = () => {
     setFavorite(!favorite);
   };
@@ -45,7 +46,7 @@ function MainSpotListCard({ spot, index }) {
           component="img"
           height="140"
           image={spot.image}
-          alt="green iguana"
+          alt="Image of the skatespot"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
