@@ -5,6 +5,7 @@ import {
   createSpot,
   uploadSpotPicture,
   getOneSpot,
+  updateSpot,
 } from "../controller/spotController.js";
 import { multerUpload } from "../middelwares/multer.js";
 
@@ -13,6 +14,7 @@ const spotRouter = express.Router();
 spotRouter.get("/all", getAllSpots);
 spotRouter.get("/one/:spot", getOneSpot);
 spotRouter.get("/search/:boroughsBerlin", getBoroughs);
+spotRouter.post("/update", updateSpot);
 spotRouter.post("/createspot", createSpot);
 spotRouter.post(
   "/imageupload",

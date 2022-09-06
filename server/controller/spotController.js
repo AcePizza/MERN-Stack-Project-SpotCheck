@@ -131,11 +131,34 @@ const uploadSpotPicture = async (req, res) => {
   }
 };
 
+const updateSpot = async (req, res) => {
+  console.log({
+    spot: req.body.spot,
+    user: req.body.user,
+    comment: req.body.comment,
+  });
+  try {
+    const doc = await SpotModal.findById(req.body.spot);
+
+    doc.comments.push({
+      author: req.body.user,
+      time: req.body.time,
+      message: req.body.message,
+    }),
+      await doc.save();
+    res.status(200).json({ msg: "Success" });
+  } catch (error) {
+    console.log("error", error);
+    res.status(409).json({ msg: "Something went wrong", error: error });
+  }
+};
+
 const getOneSpot = async (req, res) => {
   try {
     const findByID = await SpotModal.findById(req.params.spot).exec();
     console.log("findByID", findByID.comments);
     res.status(200).json({
+      id: findByID._id,
       title: findByID.title,
       location: findByID.location,
       image: findByID.image,
@@ -149,4 +172,11 @@ const getOneSpot = async (req, res) => {
   }
 };
 
-export { getAllSpots, getBoroughs, createSpot, uploadSpotPicture, getOneSpot };
+export {
+  getAllSpots,
+  getBoroughs,
+  createSpot,
+  uploadSpotPicture,
+  getOneSpot,
+  updateSpot,
+};
