@@ -16,8 +16,6 @@ function Comments(props) {
     }
   };
 
-  console.log("props", props);
-
   useEffect(() => {
     generalFetch();
   }, []);
