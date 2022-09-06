@@ -134,6 +134,7 @@ const uploadSpotPicture = async (req, res) => {
 const getOneSpot = async (req, res) => {
   try {
     const findByID = await SpotModal.findById(req.params.spot).exec();
+    console.log("findByID", findByID.comments);
     res.status(200).json({
       title: findByID.title,
       location: findByID.location,
@@ -141,6 +142,7 @@ const getOneSpot = async (req, res) => {
       description: findByID.description,
       votes: findByID.votes,
       author: findByID.author,
+      comments: findByID.comments,
     });
   } catch (error) {
     res.status(404).json({ msg: "Could not find anything", error: error });

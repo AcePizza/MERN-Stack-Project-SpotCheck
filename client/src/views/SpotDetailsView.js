@@ -10,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Alert from "@mui/material/Alert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Comments from "../components/Comments";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
@@ -116,6 +117,9 @@ function SpotDetailsView() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <h5>Comments</h5>
+              {currentSpot.comments.map((element, index) => {
+                return <Comments comments={element} index={index} />;
+              })}
             </Grid>
           </Grid>
         </>

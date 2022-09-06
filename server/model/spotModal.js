@@ -26,18 +26,9 @@ const spotSchema = new mongoose.Schema({
   },
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
-      timestamps: true,
+      author: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+      date: Date,
       message: String,
-      reply: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "users",
-          timestamps: true,
-          comment: String,
-        },
-      ],
     },
   ],
 });
