@@ -1,5 +1,5 @@
 import { Container } from "@mui/system";
-import { Divider, Grid } from "@mui/material";
+import { Button, Divider, Grid } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import LoadingPleaseWait from "../components/LoadingPleaseWait";
 import React, { useEffect, useState } from "react";
@@ -11,11 +11,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Alert from "@mui/material/Alert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Comments from "../components/Comments";
+import MakeComment from "../components/MakeComment";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
   const [favorite, setFavorite] = useState(false);
   const { spot } = useParams();
+  const [openDialog, setOpenDialog] = useState(false);
 
   const isTheTokenThere = localStorage.getItem("token");
 
@@ -37,6 +39,8 @@ function SpotDetailsView() {
     }
   };
 
+  console.log("currentSpot", currentSpot);
+
   const editSpotHandler = () => {
     if (isTheTokenThere) {
       return (
@@ -57,74 +61,91 @@ function SpotDetailsView() {
     console.log("Favorite clicked");
   };
 
+  const makeCommentHandeler = (e) => {
+    setOpenDialog(true);
+  };
+
   useEffect(() => {
     getCurrentSpot();
   }, []);
 
   return (
-    <Container>
-      {!currentSpot ? (
-        <LoadingPleaseWait />
-      ) : (
-        <>
-          <Card>
-            <div style={{ position: "relative" }}>
-              <CardMedia
-                style={{ height: "250px" }}
-                component="img"
-                image={currentSpot.image}
-                title="Pancakes"
-                alt="Pancakes"
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  color: "white",
-                  top: 0,
-                  left: "7%",
-                  textShadow: "-1px 1px 10px rgba(0, 0, 0, 0.75)",
-                }}
-              >
-                <h3>{currentSpot.title}</h3>
-              </div>
-            </div>
-          </Card>
-          <Grid container spacing={2}>
-            <Grid item xs={2}>
-              <IconButton onClick={editSpotHandler} aria-label="Edit">
-                <EditIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={8}></Grid>
-            <Grid item xs={2}>
-              <IconButton onClick={favoriteSpotHandler} aria-label="Edit">
-                {currentSpot.votes.length <= 0 ? (
-                  <FavoriteBorderIcon />
-                ) : (
-                  <FavoriteIcon />
-                )}
-              </IconButton>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <h5>Description</h5>
-              <p>{currentSpot.description}</p>
-            </Grid>
-          </Grid>
-          <br />
-          <Divider />
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <h5>Comments</h5>
-              {currentSpot.comments.map((element, index) => {
-                return <Comments comments={element} index={index} />;
-              })}
-            </Grid>
-          </Grid>
-        </>
+    <>
+      {openDialog && (
+        <MakeComment openDialog={openDialog} currentSpot={currentSpot} />
       )}
-    </Container>
+
+      {isTheTokenThere && editSpotHandler()}
+      <br />
+      <Container>
+        {!currentSpot ? (
+          <LoadingPleaseWait />
+        ) : (
+          <>
+            <Card>
+              <div style={{ position: "relative" }}>
+                <CardMedia
+                  style={{ height: "250px" }}
+                  component="img"
+                  image={currentSpot.image}
+                  title="Pancakes"
+                  alt="Pancakes"
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    color: "white",
+                    top: 0,
+                    left: "7%",
+                    textShadow: "-1px 1px 10px rgba(0, 0, 0, 0.75)",
+                  }}
+                >
+                  <h3>{currentSpot.title}</h3>
+                </div>
+              </div>
+            </Card>
+            <Grid container spacing={2}>
+              <Grid item xs={2}>
+                <IconButton onClick={editSpotHandler} aria-label="Edit">
+                  <EditIcon />
+                </IconButton>
+              </Grid>
+              <Grid item xs={8}></Grid>
+              <Grid item xs={2}>
+                <IconButton onClick={favoriteSpotHandler} aria-label="Edit">
+                  {currentSpot.votes.length <= 0 ? (
+                    <FavoriteBorderIcon />
+                  ) : (
+                    <FavoriteIcon />
+                  )}
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <h5>Description</h5>
+                <p>{currentSpot.description}</p>
+              </Grid>
+            </Grid>
+            <br />
+            <Divider />
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <h5>Comments</h5>
+                {currentSpot.comments.map((element, index) => {
+                  return <Comments comments={element} index={index} />;
+                })}
+                {!isTheTokenThere ? (
+                  <Button disabled="true">Make a comment</Button>
+                ) : (
+                  <Button onClick={makeCommentHandeler}>Make a comment</Button>
+                )}
+              </Grid>
+            </Grid>
+          </>
+        )}
+      </Container>
+    </>
   );
 }
 
