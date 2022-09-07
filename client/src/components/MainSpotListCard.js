@@ -30,11 +30,6 @@ function MainSpotListCard({ spot, index }) {
     }
   };
 
-  // TODO: Need to add functionality to this
-  const favoriteButtonHandler = () => {
-    setFavorite(!favorite);
-  };
-
   useEffect(() => {
     isPostFavorited();
   }, []);
@@ -57,12 +52,7 @@ function MainSpotListCard({ spot, index }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <IconButton
-            onClick={favoriteButtonHandler}
-            aria-label="add to favorites"
-          >
-            {!favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
+          {!favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           <Typography variant="body2" color="text.secondary">
             {spot.votes.length}
           </Typography>
