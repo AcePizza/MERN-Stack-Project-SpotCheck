@@ -88,7 +88,7 @@ const signInUser = async (req, res) => {
 
   try {
     const exsistingUser = await UserModel.findOne({
-      emailaddress: req.body.emailaddress,
+      emailaddress: req.body.email,
     });
     if (exsistingUser) {
       const verified = await verifyPassword(req, exsistingUser);

@@ -135,6 +135,7 @@ const updateSpot = async (req, res) => {
   console.log({
     spot: req.body.spot,
     user: req.body.user,
+    date: req.body.time,
     comment: req.body.comment,
   });
   try {
@@ -142,8 +143,31 @@ const updateSpot = async (req, res) => {
 
     doc.comments.push({
       author: req.body.user,
-      time: req.body.time,
-      message: req.body.message,
+      date: req.body.time,
+      message: req.body.comment,
+    }),
+      await doc.save();
+    res.status(200).json({ msg: "Success" });
+  } catch (error) {
+    console.log("error", error);
+    res.status(409).json({ msg: "Something went wrong", error: error });
+  }
+};
+
+const removeItemSpot = async (req, res) => {
+  console.log({
+    spot: req.body.spot,
+    user: req.body.user,
+    date: req.body.time,
+    comment: req.body.comment,
+  });
+  try {
+    const doc = await SpotModal.findById(req.body.spot);
+
+    doc.comments.push({
+      author: req.body.user,
+      date: req.body.time,
+      message: req.body.comment,
     }),
       await doc.save();
     res.status(200).json({ msg: "Success" });

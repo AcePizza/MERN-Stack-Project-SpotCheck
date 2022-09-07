@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -11,6 +11,7 @@ import jwtDecode from "jwt-decode";
 export default function MakeComment({ openDialog, currentSpot }) {
   const [open, setOpen] = React.useState(openDialog);
   const [commentText, setCommentText] = useState({});
+  const [okUpload, setOkUpload] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -26,11 +27,41 @@ export default function MakeComment({ openDialog, currentSpot }) {
     return decoded.sub;
   };
 
+  const updateCommentOptions = useCallback(() => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/x-www-form-urlencoded",
+    });
+    const urlencoded = new URLSearchParams({
+      spot: currentSpot.id,
+      user: getCurrentUser(),
+      time: Date.now(),
+      comment: JSON.stringify(commentText.comment),
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+    return requestOptions;
+  }, [commentText.comment, currentSpot.id]);
+
   const commentButtonHandler = async () => {
-    const user = getCurrentUser();
+    try {
+      const response = await fetch(
+        "http://localhost:5000/spots/update",
+        updateCommentOptions()
+      );
+      const results = await response.json();
+      setOkUpload(true);
+      setOpen(false);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
-  console.log("currentSpot", currentSpot);
+  console.log("okUpload", okUpload);
 
   return (
     <>

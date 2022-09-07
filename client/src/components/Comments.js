@@ -1,7 +1,8 @@
-import { Avatar, Grid } from "@mui/material";
+import { Avatar, Button, getToolbarUtilityClass, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import useFetch from "../utils/useFetch";
 import LoadingPleaseWait from "../components/LoadingPleaseWait";
+import jwtDecode from "jwt-decode";
 
 function Comments(props) {
   const [data, setData] = useState();
@@ -26,6 +27,21 @@ function Comments(props) {
       return user._id == props.comments.author;
     });
 
+  const dateContructor = () => {
+    let date = new Date(props.comments.date);
+    let something = date.toDateString(date);
+    return something;
+  };
+
+  const whoIsTheLoggedInUser = () => {
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    return user.sub;
+  };
+
+  // TODO: use array idex for mongoDB deletion
+  console.log("first", props.index);
+
   return (
     <>
       {!findUser ? (
@@ -45,7 +61,20 @@ function Comments(props) {
               >{`${findUser.firstname} ${findUser.lastname}`}</h4>
               <p style={{ textAlign: "left" }}>{props.comments.message} </p>
               <p style={{ textAlign: "left", color: "gray" }}>
-                {props.comments.time}
+                {dateContructor()}{" "}
+                {whoIsTheLoggedInUser() == props.comments.author ? (
+                  <>
+                    <Button color="warning" style={{ textAlign: "right" }}>
+                      Delete
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button disabled={true} style={{ textAlign: "right" }}>
+                      Delete
+                    </Button>
+                  </>
+                )}
               </p>
             </Grid>
           </Grid>
