@@ -10,17 +10,21 @@ const jwtOptions = {
 };
 
 const jwtStrategy = new JwtStrategy(jwtOptions, function (jwt_payload, done) {
-  UserModel.findOne({ _id: jwt_payload.sub }, function (err, user) {
-    if (err) {
-      return done(err, false);
-    }
-    if (user) {
-      return done(null, user);
-    } else {
-      return done(null, false);
-      // or you could create a new account
-    }
-  });
+  try {
+    UserModel.findOne({ _id: jwt_payload.sub }, function (err, user) {
+      if (err) {
+        return done(err, false);
+      }
+      if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+        // or you could create a new account
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const passportConfig = (passport) => {
