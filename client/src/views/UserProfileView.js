@@ -12,16 +12,13 @@ import useGetProfile from "../utils/useGetProfile";
 function UserProfileView() {
   const [profileData, setProfileData] = useState(null);
   const [fileObject, setFileOject] = useState(null);
-  const [imageURL, setImageURL] = useState(null);
+  const [imageURL, setImageURL] = useState("");
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
+  const [updatedData, setUpdatedDate] = useState(null);
 
-  const firstnameChangeHandler = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const lastnameChangeHandler = (e) => {
-    setLastName(e.target.value);
+  const something = (e) => {
+    setUpdatedDate({ ...updatedData, [e.target.name]: e.target.value });
   };
 
   const data = useGetProfile();
@@ -57,79 +54,53 @@ function UserProfileView() {
     setFileOject(e.target.files[0]);
   };
 
+  const imageUpload = async () => {
+    const formData = new FormData();
+    formData.append("image", fileObject);
+
+    const imageRequestOptions = {
+      method: "POST",
+      body: formData,
+    };
+
+    const response = await fetch(
+      "http://localhost:5000/users/imageupload",
+      imageRequestOptions
+    );
+    const result = await response.json();
+    setImageURL(result.imageURL);
+  };
+
+  useEffect(() => {
+    imageUpload();
+  }, [fileObject]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    const imageUpload = async () => {
-      const formData = new FormData();
-      formData.append("image", fileObject);
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("firstname", firstName);
+    urlencoded.append("lastname", lastName);
+    urlencoded.append("emailaddress", profileData.emailaddress);
+    if (fileObject) {
+      urlencoded.append("image", imageURL);
+    }
 
-      const imageRequestOptions = {
-        method: "POST",
-        body: formData,
-      };
-
-      const response = await fetch(
-        "http://localhost:5000/users/imageupload",
-        imageRequestOptions
-      );
-      const result = await response.json();
-      setImageURL(result.imageURL);
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
     };
 
-    const userDetailsUpload = async () => {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-      const urlencoded = new URLSearchParams();
-      urlencoded.append("firstname", firstName);
-      urlencoded.append("lastname", lastName);
-      urlencoded.append("emailaddress", profileData.emailaddress);
-      if (fileObject) {
-        urlencoded.append("image", imageURL);
-      } else {
-        return;
-      }
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: "follow",
-      };
-
-      const profileResponse = await fetch(
-        "http://localhost:5000/users/update",
-        requestOptions
-      );
-      const profileResults = await profileResponse.json();
-      setProfileData(profileResults);
-    };
-
-    const imageAndUserDetailsUpload = async () => {
-      try {
-        imageUpload();
-        if (imageURL) {
-          try {
-            userDetailsUpload();
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const justUserDetailsUpload = () => {
-      try {
-        userDetailsUpload();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fileObject ? imageAndUserDetailsUpload() : justUserDetailsUpload();
+    const profileResponse = await fetch(
+      "http://localhost:5000/users/update",
+      requestOptions
+    );
+    const profileResults = await profileResponse.json();
+    setProfileData(profileResults);
   };
 
   useEffect(() => {
@@ -190,19 +161,23 @@ function UserProfileView() {
             <Grid item xs={6}>
               <TextField
                 id="firstname"
-                label="First Name"
-                value={profileData.firstname}
+                label={
+                  profileData.firstname ? profileData.firstname : "First name"
+                }
+                name="firstname"
+                value={profileData.firstname ? profileData.firstname : ""}
                 variant="standard"
-                onChange={firstnameChangeHandler}
+                onChange={something}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 id="lastname"
                 label="Last Name"
-                value={profileData.lastname}
+                name="lastname"
+                value={profileData.lastname ? profileData.lastname : ""}
                 variant="standard"
-                onChange={lastnameChangeHandler}
+                onChange={something}
               />
             </Grid>
             <Grid item xs={6}></Grid>
