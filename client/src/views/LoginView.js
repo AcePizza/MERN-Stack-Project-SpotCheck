@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginDialog from "../components/LoginDialog";
 import { AutenticationContext } from "../context/AutenticationContext";
+import useFetch from "../utils/useFetch";
 
 const theme = createTheme();
 
@@ -25,14 +26,19 @@ const SignIn = () => {
     setOpenDialog();
   };
 
+  const onChangeEventHandler = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const { data, runFetchWithUrl } = useFetch(
+    "http://localhost:5000/users/benjamin"
+  );
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    setFormData({
-      emailaddress: data.get("email"),
-      password: data.get("password"),
-    });
 
     const requestOptions = {
       method: "POST",
@@ -42,31 +48,26 @@ const SignIn = () => {
       body: JSON.stringify(formData),
     };
 
-    // TODO: Please move this to the hook
-    const fetchStuffFromBackend = async () => {
-      try {
-        const fetchData = await fetch(
-          "http://localhost:5000/users/login",
-          requestOptions
-        );
-        const response = await fetchData.json();
-        setResultsFromFetch({
-          status: fetchData.status,
-          response,
-        });
-        const token = response.token; //Store the token
+    try {
+      const fetchData = await fetch(
+        "http://localhost:5000/users/login",
+        requestOptions
+      );
+      const response = await fetchData.json();
+      setResultsFromFetch({
+        status: fetchData.status,
+        response,
+      });
+      const token = response.token; //Store the token
 
-        localStorage.setItem("token", token);
-        setOpenDialog(true);
-      } catch (error) {
-        setResultsFromFetch({
-          msg: "Sommething went wrong",
-          error: "error",
-        });
-      }
-    };
-
-    fetchStuffFromBackend(formData);
+      localStorage.setItem("token", token);
+      setOpenDialog(true);
+    } catch (error) {
+      setResultsFromFetch({
+        msg: "Sommething went wrong",
+        error: "error",
+      });
+    }
   };
 
   return (
@@ -109,6 +110,7 @@ const SignIn = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={onChangeEventHandler}
                 autoFocus
               />
               <TextField
@@ -119,6 +121,7 @@ const SignIn = () => {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={onChangeEventHandler}
                 autoComplete="current-password"
               />
               <Button
