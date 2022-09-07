@@ -18,8 +18,9 @@ function SpotDetailsView() {
   const [favorite, setFavorite] = useState(false);
   const { spot } = useParams();
   const [openDialog, setOpenDialog] = useState(false);
-
-  const isTheTokenThere = localStorage.getItem("token");
+  const [isTokenThere, setIsTokenThere] = useState(
+    localStorage.getItem("token")
+  );
 
   const reqOptions = {
     method: "GET",
@@ -39,10 +40,8 @@ function SpotDetailsView() {
     }
   };
 
-  console.log("currentSpot", currentSpot);
-
   const editSpotHandler = () => {
-    if (isTheTokenThere) {
+    if (isTokenThere) {
       return (
         <>
           <Alert severity="warning">Nothing here yet</Alert>
@@ -56,6 +55,12 @@ function SpotDetailsView() {
       );
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsTokenThere(false);
+    }, 3000);
+  }, []);
 
   const favoriteSpotHandler = () => {
     console.log("Favorite clicked");
@@ -71,11 +76,11 @@ function SpotDetailsView() {
 
   return (
     <>
+      {isTokenThere && editSpotHandler()}
+
       {openDialog && (
         <MakeComment openDialog={openDialog} currentSpot={currentSpot} />
       )}
-
-      {isTheTokenThere && editSpotHandler()}
       <br />
       <Container>
         {!currentSpot ? (
@@ -135,7 +140,7 @@ function SpotDetailsView() {
                 {currentSpot.comments.map((element, index) => {
                   return <Comments comments={element} index={index} />;
                 })}
-                {!isTheTokenThere ? (
+                {isTokenThere ? (
                   <Button disabled="true">Make a comment</Button>
                 ) : (
                   <Button onClick={makeCommentHandeler}>Make a comment</Button>
