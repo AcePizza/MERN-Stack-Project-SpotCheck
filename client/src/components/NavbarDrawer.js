@@ -8,7 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -17,15 +17,25 @@ import { AutenticationContext } from "../context/AutenticationContext";
 
 export default function NavbarDrawer({ openDrawer, setOpenDrawer }) {
   const currentPage = useLocation();
-  const { isUserLoggedIn } = useContext(AutenticationContext);
+
+  const redirectTo = useNavigate();
 
   const toggleDrawer = (open) => (event) => {
     setOpenDrawer(open);
   };
 
+  const isUserLoggedIn = localStorage.getItem("token");
+
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    redirectTo("/home");
+  };
+
   const handleSortChange = (e) => {
     console.log(e.target.value);
   };
+
+  isUserLoggedIn ? console.log("yes") : console.log("no");
 
   const notLoggedIn = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -95,9 +105,7 @@ export default function NavbarDrawer({ openDrawer, setOpenDrawer }) {
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton>
-            <Link href="/home" underline="none">
-              {"Logout"}
-            </Link>
+            <Button onClick={logoutHandler}>Logout</Button>
           </ListItemButton>
         </ListItem>
       </List>
@@ -136,7 +144,7 @@ export default function NavbarDrawer({ openDrawer, setOpenDrawer }) {
     <div>
       <>
         <Drawer anchor={"left"} open={openDrawer} onClose={toggleDrawer(false)}>
-          {isUserLoggedIn ? notLoggedIn() : loggedIn()}
+          {!isUserLoggedIn ? notLoggedIn() : loggedIn()}
         </Drawer>
       </>
     </div>
