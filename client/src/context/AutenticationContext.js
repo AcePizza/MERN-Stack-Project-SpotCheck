@@ -9,14 +9,11 @@ export const AutenticationContextProvider = (props) => {
 
   const getToken = () => {
     const isTokenThere = localStorage.getItem("token");
-    if (isTokenThere) {
-      return true;
-    } else {
-      return false;
-    }
+    return isTokenThere;
   };
 
   const logoutUser = () => {
+    console.log("Is this running?");
     localStorage.removeItem("token");
   };
 
