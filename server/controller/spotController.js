@@ -132,12 +132,7 @@ const uploadSpotPicture = async (req, res) => {
 };
 
 const updateSpot = async (req, res) => {
-  console.log({
-    spot: req.body.spot,
-    user: req.body.user,
-    date: req.body.time,
-    comment: req.body.comment,
-  });
+  4;
   try {
     const doc = await SpotModal.findById(req.body.spot);
 
@@ -192,6 +187,31 @@ const getOneSpot = async (req, res) => {
   }
 };
 
+const favourite = async (req, res, next) => {
+  console.log({
+    spot: req.body.spot,
+    user: req.body.user,
+  });
+
+  const updateVoteOptions = { $push: { votes: req.body.user } };
+
+  try {
+    const updateVote = await SpotModal.findByIdAndUpdate(
+      req.body.spot,
+      updateVoteOptions
+    );
+    if (updateVote === null) {
+      res.status(404).json({
+        msg: `Could not find any corresponding spot with ID: ${req.body.spot}`,
+      });
+    } else {
+      res.status(200).json({ msg: "Success", updatedSpot: updateVote });
+    }
+  } catch (error) {
+    res.status(204).json({ msg: "There was an error", error: error });
+  }
+};
+
 export {
   getAllSpots,
   getBoroughs,
@@ -200,4 +220,5 @@ export {
   getOneSpot,
   updateSpot,
   updateComment,
+  favourite,
 };

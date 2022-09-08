@@ -12,6 +12,7 @@ import Alert from "@mui/material/Alert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Comments from "../components/Comments";
 import MakeComment from "../components/MakeComment";
+import jwtDecode from "jwt-decode";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
@@ -62,8 +63,36 @@ function SpotDetailsView() {
     }, 3000);
   }, []);
 
-  const favoriteSpotHandler = () => {
-    console.log("Favorite clicked");
+  const favoriteSpotHandler = async () => {
+    const fetchOption = () => {
+      const userID = jwtDecode(localStorage.getItem("token"));
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("spot", currentSpot.id);
+      urlencoded.append("user", userID.sub);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+      return requestOptions;
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/spots/vote",
+        fetchOption()
+      );
+      const results = await response.json();
+      console.log("results", results);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const makeCommentHandeler = (e) => {
