@@ -154,33 +154,29 @@ const updateSpot = async (req, res) => {
   }
 };
 
-const removeItemSpot = async (req, res) => {
-  console.log({
-    spot: req.body.spot,
-    user: req.body.user,
-    date: req.body.time,
-    comment: req.body.comment,
-  });
+const updateComment = async (req, res) => {
+  console.log({ index: req.body.index, spot: req.body.spot });
+  const element = parseInt(req.body.index);
+  console.log(element, typeof element);
   try {
     const doc = await SpotModal.findById(req.body.spot);
 
-    doc.comments.push({
-      author: req.body.user,
-      date: req.body.time,
-      message: req.body.comment,
-    }),
-      await doc.save();
-    res.status(200).json({ msg: "Success" });
+    doc.comments.map((comment, i) => {
+      if (i === element) {
+        doc.comments.splice(i, 1);
+      }
+    });
+    await doc.save();
+    res.status(200).json({ msg: "Success", array: doc });
   } catch (error) {
     console.log("error", error);
-    res.status(409).json({ msg: "Something went wrong", error: error });
+    res.status(404).json({ msg: "Something went wrong", error: error });
   }
 };
 
 const getOneSpot = async (req, res) => {
   try {
     const findByID = await SpotModal.findById(req.params.spot).exec();
-    console.log("findByID", findByID.comments);
     res.status(200).json({
       id: findByID._id,
       title: findByID.title,
@@ -203,4 +199,5 @@ export {
   uploadSpotPicture,
   getOneSpot,
   updateSpot,
+  updateComment,
 };

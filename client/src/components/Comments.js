@@ -29,8 +29,8 @@ function Comments(props) {
 
   const dateContructor = () => {
     let date = new Date(props.comments.date);
-    let something = date.toDateString(date);
-    return something;
+    let someDate = date.toDateString(date);
+    return someDate;
   };
 
   const whoIsTheLoggedInUser = () => {
@@ -40,7 +40,36 @@ function Comments(props) {
   };
 
   // TODO: use array idex for mongoDB deletion
-  console.log("first", props.index);
+  const deleteComment = async () => {
+    //fetch options
+    const options = () => {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("index", props.index);
+      urlencoded.append("spot", props.spot.id);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+      return requestOptions;
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/spots/updatecomment",
+        options()
+      );
+      const results = await response.json();
+      console.log("results", results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -64,13 +93,17 @@ function Comments(props) {
                 {dateContructor()}{" "}
                 {whoIsTheLoggedInUser() == props.comments.author ? (
                   <>
-                    <Button color="warning" style={{ textAlign: "right" }}>
+                    <Button
+                      onClick={deleteComment}
+                      color="warning"
+                      style={{ textAlign: "right" }}
+                    >
                       Delete
                     </Button>
                   </>
                 ) : (
                   <>
-                    <Button disabled={true} style={{ textAlign: "right" }}>
+                    <Button style={{ textAlign: "right" }} disabled="true">
                       Delete
                     </Button>
                   </>

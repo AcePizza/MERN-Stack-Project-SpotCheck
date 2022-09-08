@@ -138,7 +138,13 @@ function SpotDetailsView() {
               <Grid item xs={12}>
                 <h5>Comments</h5>
                 {currentSpot.comments.map((element, index) => {
-                  return <Comments comments={element} index={index} />;
+                  return (
+                    <Comments
+                      spot={currentSpot}
+                      comments={element}
+                      index={index}
+                    />
+                  );
                 })}
                 {isTokenThere ? (
                   <Button disabled="true">Make a comment</Button>
