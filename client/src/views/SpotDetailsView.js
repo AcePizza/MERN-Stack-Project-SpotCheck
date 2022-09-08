@@ -169,6 +169,7 @@ function SpotDetailsView() {
                 {currentSpot.comments.map((element, index) => {
                   return (
                     <Comments
+                      key={index}
                       spot={currentSpot}
                       comments={element}
                       index={index}
@@ -176,7 +177,7 @@ function SpotDetailsView() {
                   );
                 })}
                 {isTokenThere ? (
-                  <Button disabled="true">Make a comment</Button>
+                  <Button disabled={true}>Make a comment</Button>
                 ) : (
                   <Button onClick={makeCommentHandeler}>Make a comment</Button>
                 )}

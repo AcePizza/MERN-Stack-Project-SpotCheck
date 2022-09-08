@@ -26,7 +26,7 @@ function MainSpotListView() {
         <LoadingPleaseWait />
       ) : (
         foundSpots.allSpots.map((spot, index) => {
-          return <MainSpotListCard spot={spot} index={index} />;
+          return <MainSpotListCard key={index} spot={spot} index={index} />;
         })
       )}
     </Container>
