@@ -10,6 +10,7 @@ import AutenticationContext, {
 import AddSpotView from "./views/AddSpotView";
 import SpotDetailsView from "./views/SpotDetailsView";
 import UserProfileView from "./views/UserProfileView";
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <div className="App">
@@ -22,7 +23,14 @@ function App() {
           <Route path="signup" element={<SignupView />} />
           <Route path="addspot" element={<AddSpotView />} />
           <Route path="spotdetails/:spot" element={<SpotDetailsView />} />
-          <Route path="profile" element={<UserProfileView />} />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <UserProfileView />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </AutenticationContextProvider>
     </div>
