@@ -15,9 +15,10 @@ function UserProfileView() {
   const [imageURL, setImageURL] = useState("");
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
-  const [updatedData, setUpdatedDate] = useState(null);
+  const [updatedData, setUpdatedDate] = useState("");
 
-  const something = (e) => {
+  const onChangeEventHandler = (e) => {
+    console.log("Check", { [e.target.name]: e.target.value });
     setUpdatedDate({ ...updatedData, [e.target.name]: e.target.value });
   };
 
@@ -81,11 +82,15 @@ function UserProfileView() {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const urlencoded = new URLSearchParams();
-    urlencoded.append("firstname", firstName);
-    urlencoded.append("lastname", lastName);
+    urlencoded.append("firstname", updatedData.firstname);
+    urlencoded.append("lastname", updatedData.lastname);
     urlencoded.append("emailaddress", profileData.emailaddress);
-    if (fileObject) {
-      urlencoded.append("image", imageURL);
+    if (profileData === true) {
+      if (fileObject) {
+        urlencoded.append("image", imageURL);
+      } else {
+        urlencoded.append("image", profileData.image);
+      }
     }
 
     const requestOptions = {
@@ -162,22 +167,24 @@ function UserProfileView() {
               <TextField
                 id="firstname"
                 label={
-                  profileData.firstname ? profileData.firstname : "First name"
+                  profileData
+                    ? ("First: ", profileData.firstname)
+                    : "First Name"
                 }
                 name="firstname"
-                value={profileData.firstname ? profileData.firstname : ""}
                 variant="standard"
-                onChange={something}
+                onChange={onChangeEventHandler}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 id="lastname"
-                label="Last Name"
+                label={
+                  profileData ? ("Last: ", profileData.lastname) : "Last Name"
+                }
                 name="lastname"
-                value={profileData.lastname ? profileData.lastname : ""}
                 variant="standard"
-                onChange={something}
+                onChange={onChangeEventHandler}
               />
             </Grid>
             <Grid item xs={6}></Grid>
