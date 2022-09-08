@@ -6,6 +6,7 @@ import jwtDecode from "jwt-decode";
 
 function Comments(props) {
   const [data, setData] = useState();
+  const [isTheTaskDone, setIsTheTaskDone] = useState(false);
 
   const generalFetch = async (url) => {
     try {
@@ -65,7 +66,7 @@ function Comments(props) {
         options()
       );
       const results = await response.json();
-      console.log("results", results);
+      setIsTheTaskDone(true);
     } catch (error) {
       console.log(error);
     }
@@ -77,7 +78,7 @@ function Comments(props) {
         <LoadingPleaseWait />
       ) : (
         <>
-          <Grid key={props.index} container wrap="nowrap" spacing={2}>
+          <Grid container wrap="nowrap" spacing={2}>
             <Grid item>
               <Avatar
                 alt={`${findUser.firstname} ${findUser.lastname}`}
@@ -103,7 +104,7 @@ function Comments(props) {
                   </>
                 ) : (
                   <>
-                    <Button style={{ textAlign: "right" }} disabled="true">
+                    <Button style={{ textAlign: "right" }} disabled={true}>
                       Delete
                     </Button>
                   </>
