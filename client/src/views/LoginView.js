@@ -33,9 +33,9 @@ const SignIn = () => {
     });
   };
 
-  const { data, runFetchWithUrl } = useFetch(
-    "http://localhost:5000/users/benjamin"
-  );
+  // const { data, runFetchWithUrl } = useFetch(
+  //   "http://localhost:5000/users/benjamin"
+  // );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
