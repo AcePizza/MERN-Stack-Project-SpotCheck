@@ -13,9 +13,10 @@ function UserProfileView() {
   const [profileData, setProfileData] = useState(null);
   const [fileObject, setFileOject] = useState(null);
   const [imageURL, setImageURL] = useState("");
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
   const [updatedData, setUpdatedDate] = useState("");
+  const [isTokenThere, setIsTokenThere] = useState(
+    localStorage.getItem("token")
+  );
 
   const onChangeEventHandler = (e) => {
     console.log("Check", { [e.target.name]: e.target.value });
@@ -52,60 +53,63 @@ function UserProfileView() {
   };
 
   const handleFile = (e) => {
+    console.log("Does this run");
     setFileOject(e.target.files[0]);
   };
 
-  const imageUpload = async () => {
-    const formData = new FormData();
-    formData.append("image", fileObject);
-
-    const imageRequestOptions = {
-      method: "POST",
-      body: formData,
-    };
-
-    const response = await fetch(
-      "http://localhost:5000/users/imageupload",
-      imageRequestOptions
-    );
-    const result = await response.json();
-    setImageURL(result.imageURL);
-  };
-
-  useEffect(() => {
-    imageUpload();
-  }, [fileObject]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("firstname", updatedData.firstname);
-    urlencoded.append("lastname", updatedData.lastname);
-    urlencoded.append("emailaddress", profileData.emailaddress);
-    if (profileData === true) {
-      if (fileObject) {
-        urlencoded.append("image", imageURL);
-      } else {
-        urlencoded.append("image", profileData.image);
-      }
-    }
+    const imageOptions = () => {
+      const formData = new FormData();
+      formData.append("image", fileObject);
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
+      const imageRequestOptions = {
+        method: "POST",
+        body: formData,
+      };
+      return imageRequestOptions;
     };
 
-    const profileResponse = await fetch(
-      "http://localhost:5000/users/update",
-      requestOptions
-    );
-    const profileResults = await profileResponse.json();
-    setProfileData(profileResults);
+    const profileOptions = () => {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("firstname", updatedData.firstname);
+      urlencoded.append("lastname", updatedData.lastname);
+      urlencoded.append("emailaddress", profileData.emailaddress);
+      imageURL && urlencoded.append("image", imageURL);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+      return requestOptions;
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/users/imageupload",
+        imageOptions()
+      );
+      const result = await response.json();
+      setImageURL(result.imageURL);
+      try {
+        const profileResponse = await fetch(
+          "http://localhost:5000/users/update",
+          profileOptions()
+        );
+        const profileResults = await profileResponse.json();
+        setProfileData(profileResults);
+      } catch (error) {
+        console.log("Profile error:", error);
+      }
+    } catch (error) {
+      console.log("Image error: ", error);
+    }
   };
 
   useEffect(() => {
@@ -129,7 +133,7 @@ function UserProfileView() {
             <Grid item xs={4}>
               <Avatar
                 alt="Remy Sharp"
-                src={profileData.image}
+                src={imageURL ? imageURL : profileData.image}
                 sx={{ width: 200, height: 200 }}
               />
             </Grid>
