@@ -12,6 +12,7 @@ function MainSpotListView() {
   const url = "http://localhost:5000/spots/all";
   const options = "";
 
+  // This does not work with no token :(
   const data = useFetch(url, options);
   let foundSpots = "";
 
