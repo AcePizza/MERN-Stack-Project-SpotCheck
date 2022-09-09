@@ -9,6 +9,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import NavbarDrawer from "../components/NavbarDrawer";
 import { AutenticationContext } from "../context/AutenticationContext";
+import { Avatar } from "@mui/material";
+import useGetProfile from "../utils/useGetProfile";
+import LoadingPleaseWait from "../components/LoadingPleaseWait";
 
 function MainNavbar() {
   const { isUserLoggedIn, logoutUser } = useContext(AutenticationContext);
@@ -18,6 +21,8 @@ function MainNavbar() {
   const isTokenThere = localStorage.getItem("token");
 
   const loginOnClickHandeler = () => [redirectTo("/login")];
+
+  const getUserAvatar = useGetProfile();
 
   const openDrawerHandeler = (event) => {
     setOpenDrawer(!openDrawer);
@@ -41,13 +46,18 @@ function MainNavbar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               SpotView
             </Typography>
-            {!isTokenThere ? (
-              <Button onClick={logoutUser} color="inherit">
-                Login
-              </Button>
+            {isTokenThere ? (
+              <Avatar
+                sx={{ width: 32, height: 32 }}
+                alt={
+                  getUserAvatar &&
+                  `${getUserAvatar.firstname} ${getUserAvatar.lastname}`
+                }
+                src={getUserAvatar && getUserAvatar.image}
+              />
             ) : (
               <Button onClick={loginOnClickHandeler} color="inherit">
-                Logout
+                Login
               </Button>
             )}
           </Toolbar>
