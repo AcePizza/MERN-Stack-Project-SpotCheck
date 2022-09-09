@@ -35,8 +35,6 @@ export default function NavbarDrawer({ openDrawer, setOpenDrawer }) {
     console.log(e.target.value);
   };
 
-  isUserLoggedIn ? console.log("yes") : console.log("no");
-
   const notLoggedIn = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
