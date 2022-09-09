@@ -16,7 +16,7 @@ import jwtDecode from "jwt-decode";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
-  const [favorite, setFavorite] = useState(false);
+  const [isTheTaskDone, setIsTheTaskDone] = useState(false);
   const { spot } = useParams();
   const [openDialog, setOpenDialog] = useState(false);
   const [isTokenThere, setIsTokenThere] = useState(
@@ -90,6 +90,7 @@ function SpotDetailsView() {
       );
       const results = await response.json();
       console.log("results", results);
+      setIsTheTaskDone(true);
     } catch (error) {
       console.log(error);
     }
