@@ -46,15 +46,21 @@ function MainNavbar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               SpotView
             </Typography>
+            {/* <Avatar
+              sx={{ width: 32, height: 32 }}
+              alt="placeholder"
+              src={getUserAvatar.fetchData.image}
+            /> */}
             {isTokenThere ? (
-              <Avatar
-                sx={{ width: 32, height: 32 }}
-                alt={
-                  getUserAvatar &&
-                  `${getUserAvatar.firstname} ${getUserAvatar.lastname}`
-                }
-                src={getUserAvatar && getUserAvatar.image}
-              />
+              getUserAvatar.fetchData === null ? (
+                <LoadingPleaseWait />
+              ) : (
+                <Avatar
+                  sx={{ width: 32, height: 32 }}
+                  alt="placeholder"
+                  src={getUserAvatar.fetchData.image}
+                />
+              )
             ) : (
               <Button onClick={loginOnClickHandeler} color="inherit">
                 Login

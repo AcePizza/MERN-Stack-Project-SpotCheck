@@ -1,12 +1,10 @@
 import { Avatar, Button, getToolbarUtilityClass, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import useFetch from "../utils/useFetch";
 import LoadingPleaseWait from "../components/LoadingPleaseWait";
 import jwtDecode from "jwt-decode";
 
 function Comments(props) {
   const [data, setData] = useState();
-  const [isTheTaskDone, setIsTheTaskDone] = useState(false);
 
   const generalFetch = async (url) => {
     try {
@@ -66,11 +64,17 @@ function Comments(props) {
         options()
       );
       const results = await response.json();
-      setIsTheTaskDone(true);
+      props.setIsTheTaskDone(true);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (props.isTheTaskDone) {
+      props.setIsTheTaskDone(false);
+    }
+  }, [props.isTheTaskDone]);
 
   return (
     <>

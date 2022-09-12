@@ -13,7 +13,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Comments from "../components/Comments";
 import MakeComment from "../components/MakeComment";
 import jwtDecode from "jwt-decode";
-import { convertLength } from "@mui/material/styles/cssUtils";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
@@ -78,7 +77,6 @@ function SpotDetailsView() {
       );
       const results = await response.json();
       console.log("results", results);
-      setIsTheTaskDone(true);
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +95,8 @@ function SpotDetailsView() {
   useEffect(() => {
     getCurrentSpot();
   }, []);
+
+  console.log("task done : ", isTheTaskDone);
 
   return (
     <>
@@ -173,6 +173,8 @@ function SpotDetailsView() {
                       spot={currentSpot}
                       comments={element}
                       index={index}
+                      setIsTheTaskDone={setIsTheTaskDone}
+                      isTheTaskDone={isTheTaskDone}
                     />
                   );
                 })}

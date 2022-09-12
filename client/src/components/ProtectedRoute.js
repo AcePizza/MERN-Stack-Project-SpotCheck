@@ -6,12 +6,16 @@ function ProtectedRoute() {
   const isTheTokenThere = localStorage.getItem("token");
   const redirectTo = useNavigate();
 
-  console.log("isTokenThere", isTheTokenThere);
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (isTheTokenThere == null) {
+      redirectTo("/home");
+    }
+  }, []);
 
   return (
-    <>{isTheTokenThere === null ? redirectTo("/login") : <UserProfileView />}</>
+    <>
+      <UserProfileView />
+    </>
   );
 }
 

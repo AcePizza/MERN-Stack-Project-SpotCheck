@@ -23,9 +23,6 @@ function MainSpotListView() {
 
   const token = useToken();
 
-  console.log("token", token);
-  console.log("data", data);
-
   return (
     <Container>
       <br />
