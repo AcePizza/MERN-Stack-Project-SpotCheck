@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function useGetProfile() {
+function useGetProfile(props) {
   console.log("Does this run");
   const [fetchData, setFetchData] = useState(null);
   const [error, setError] = useState(null);

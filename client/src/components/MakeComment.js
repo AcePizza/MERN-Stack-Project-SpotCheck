@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextareaAutosize, TextField } from "@mui/material";
 import jwtDecode from "jwt-decode";
@@ -12,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 export default function MakeComment({ openDialog, currentSpot }) {
   const [open, setOpen] = React.useState(openDialog);
   const [commentText, setCommentText] = useState({});
-  const [okUpload, setOkUpload] = useState(false);
   const redirectTo = useNavigate();
 
   const handleClose = () => {
@@ -56,14 +54,13 @@ export default function MakeComment({ openDialog, currentSpot }) {
         updateCommentOptions()
       );
       const results = await response.json();
+      console.log({ results });
       setOpen(false);
       redirectTo(`/spotdetails/${currentSpot.id}`);
     } catch (error) {
       console.log("error", error);
     }
   };
-
-  console.log("okUpload", okUpload);
 
   return (
     <>
