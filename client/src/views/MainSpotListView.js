@@ -5,6 +5,7 @@ import MainSpotListCard from "../components/MainSpotListCard";
 import MainSpotListDropDownFilter from "../components/MainSpotListDropDownFilter";
 import MainSpotListPagination from "../components/MainSpotListPagination";
 import useFetch from "../utils/useFetch";
+import useToken from "../utils/useToken";
 
 function MainSpotListView() {
   // const [foundSpots, setFoundSpots] = useState(null);
@@ -19,6 +20,11 @@ function MainSpotListView() {
   if (data.loading == false) {
     foundSpots = data.data;
   }
+
+  const token = useToken();
+
+  console.log("token", token);
+  console.log("data", data);
 
   return (
     <Container>

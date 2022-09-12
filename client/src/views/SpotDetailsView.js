@@ -13,6 +13,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Comments from "../components/Comments";
 import MakeComment from "../components/MakeComment";
 import jwtDecode from "jwt-decode";
+import { convertLength } from "@mui/material/styles/cssUtils";
 
 function SpotDetailsView() {
   const [currentSpot, setCurrentSpot] = useState(null);
@@ -22,6 +23,7 @@ function SpotDetailsView() {
   const [isTokenThere, setIsTokenThere] = useState(
     localStorage.getItem("token")
   );
+  const [buttonPressed, setButtonPressed] = useState(false);
 
   const reqOptions = {
     method: "GET",
@@ -42,26 +44,12 @@ function SpotDetailsView() {
   };
 
   const editSpotHandler = () => {
-    if (isTokenThere) {
-      return (
-        <>
-          <Alert severity="warning">Nothing here yet</Alert>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <Alert severity="error">Please login to edit spots!</Alert>
-        </>
-      );
-    }
+    return (
+      <>
+        <Alert severity="warning">Nothing here yet</Alert>
+      </>
+    );
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsTokenThere(false);
-    }, 3000);
-  }, []);
 
   const favoriteSpotHandler = async () => {
     const fetchOption = () => {
@@ -101,12 +89,18 @@ function SpotDetailsView() {
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setButtonPressed(false);
+    }, 5000);
+  }, [buttonPressed]);
+
+  useEffect(() => {
     getCurrentSpot();
   }, []);
 
   return (
     <>
-      {isTokenThere && editSpotHandler()}
+      {buttonPressed && editSpotHandler()}
 
       {openDialog && (
         <MakeComment openDialog={openDialog} currentSpot={currentSpot} />
@@ -141,7 +135,12 @@ function SpotDetailsView() {
             </Card>
             <Grid container spacing={2}>
               <Grid item xs={2}>
-                <IconButton onClick={editSpotHandler} aria-label="Edit">
+                <IconButton
+                  onClick={() => {
+                    setButtonPressed(true);
+                  }}
+                  aria-label="Edit"
+                >
                   <EditIcon />
                 </IconButton>
               </Grid>
@@ -177,7 +176,7 @@ function SpotDetailsView() {
                     />
                   );
                 })}
-                {isTokenThere ? (
+                {!isTokenThere ? (
                   <Button disabled={true}>Make a comment</Button>
                 ) : (
                   <Button onClick={makeCommentHandeler}>Make a comment</Button>

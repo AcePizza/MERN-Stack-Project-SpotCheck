@@ -12,7 +12,7 @@ const useFetch = (url, options) => {
       setData(response);
       setLoading(false);
     } catch (error) {
-      setError(error);
+      setError({ error: error, message: error.message });
       setLoading(false);
     }
   };
@@ -25,7 +25,7 @@ const useFetch = (url, options) => {
       setData(response);
       setLoading(false);
     } catch (error) {
-      setError(error);
+      setError({ error: error, message: error.message });
       setLoading(false);
     }
   };

@@ -126,7 +126,7 @@ function AddSpotView() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <label htmlfor="spotImage">
+                  <label htmlFor="spotImage">
                     Choose an image for the spot:
                   </label>
                   <input
