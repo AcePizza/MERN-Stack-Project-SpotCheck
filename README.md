@@ -28,4 +28,9 @@ The app has the following features:
 
 ### Back-end
 
+  - REST API using [express](https://expressjs.com/) as backend router.
+  - [Mongoose](https://mongoosejs.com/) for handeling schemas and talking with MongoDB
+  - [Multer](http://expressjs.com/en/resources/middleware/multer.html) middleware for uploading images
+  - [JWT token](https://jwt.io/) for autorisation
+  - [MongoDB](https://www.mongodb.com/) database
 
