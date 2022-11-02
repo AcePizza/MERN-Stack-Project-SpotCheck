@@ -2,12 +2,12 @@
 
 Technology used: 
   
-  -React
-  -Material UI
-  -Node.js
-  -Express
-  -Mongoose
-  -MongoDB
+  - React
+  - Material UI
+  - Node.js
+  - Express
+  - Mongoose
+  - MongoDB
 
 ## About
 
