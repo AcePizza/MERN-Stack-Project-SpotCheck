@@ -13,9 +13,13 @@ Technology used:
 
 The app has the following features:
 
-  List view / Card disply
-  Login page
-  Registration page
-  Protected routes
-  Login
+  - List view / Card disply
+  - Login page
+  - Registration page
+  - User profilepage
+    - With update information function
+  - Add new spot page
+    - With option to edit later
+
+
 
