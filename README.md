@@ -2,12 +2,12 @@
 
 Technology used: 
   
-  - React
-  - Material UI
-  - Node.js
-  - Express
-  - Mongoose
-  - MongoDB
+  - [React](https://reactjs.org/)
+  - [Material UI](https://mui.com/)
+  - [Node.js](https://nodejs.org/en/)
+  - [Express](https://expressjs.com/)
+  - [Mongoose](https://www.mongodb.com/)
+  - [MongoDB](https://www.mongodb.com/)
 
 ## About
 The project is focused on creating an web page that displays skate spots around a city or region. A user can create an account, login and then add a favorit spot. Users can also edit spots(which they created), add likes (favorite) and make comments on any spot while logged in. 
@@ -30,7 +30,7 @@ The app has the following features:
 ### Back-end
 
   - REST API using [express](https://expressjs.com/) as backend router.
-  - [Mongoose](https://mongoosejs.com/) for handeling schemas and talking with MongoDB
+  - [Mongoose](C) for handeling schemas and talking with MongoDB
   - [Multer](http://expressjs.com/en/resources/middleware/multer.html) middleware for uploading images
   - [JWT token](https://jwt.io/) for autorisation
   - [MongoDB](https://www.mongodb.com/) database
