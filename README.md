@@ -10,6 +10,7 @@ Technology used:
   - MongoDB
 
 ## About
+The project is focused on creating an web page that displays skate spots around a city or region. A user can create an account, login and then add a favorit spot. Users can also edit spots(which they created), add likes (favorite) and make comments on any spot while logged in. 
 
 The app has the following features:
 
