@@ -94,16 +94,19 @@ function SpotDetailsView() {
 
   useEffect(() => {
     getCurrentSpot();
-  }, []);
-
-  console.log("task done : ", isTheTaskDone);
+  }, [isTheTaskDone]);
 
   return (
     <>
       {buttonPressed && editSpotHandler()}
 
       {openDialog && (
-        <MakeComment openDialog={openDialog} currentSpot={currentSpot} />
+        <MakeComment
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          currentSpot={currentSpot}
+          setIsTheTaskDone={setIsTheTaskDone}
+        />
       )}
       <br />
       <Container>

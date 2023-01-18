@@ -8,7 +8,12 @@ import { TextareaAutosize, TextField } from "@mui/material";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-export default function MakeComment({ openDialog, currentSpot }) {
+export default function MakeComment({
+  openDialog,
+  setOpenDialog,
+  currentSpot,
+  setIsTheTaskDone,
+}) {
   const [open, setOpen] = React.useState(openDialog);
   const [commentText, setCommentText] = useState({});
   const redirectTo = useNavigate();
@@ -55,8 +60,8 @@ export default function MakeComment({ openDialog, currentSpot }) {
       );
       const results = await response.json();
       console.log({ results });
-      setOpen(false);
-      redirectTo(`/spotdetails/${currentSpot.id}`);
+      setIsTheTaskDone(true);
+      setOpenDialog(false);
     } catch (error) {
       console.log("error", error);
     }

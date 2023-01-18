@@ -70,12 +70,6 @@ function Comments(props) {
     }
   };
 
-  useEffect(() => {
-    if (props.isTheTaskDone) {
-      props.setIsTheTaskDone(false);
-    }
-  }, [props.isTheTaskDone]);
-
   return (
     <>
       {!findUser ? (
